@@ -10,9 +10,9 @@ class ChatConfig:
             description="real time chat",
         )
 
-        services.websockets.create_route(function=function)
-        services.websockets.create_route(function=function, route_key="$disconnect")
-        services.websockets.create_route(function=function, route_key="sendmessage")
+        services.websockets.create_route("$connect", function)
+        services.websockets.create_route("$disconnect", function)
+        services.websockets.create_route("sendmessage", function)
 
 
         services.dynamo_db.connections_table.grant_read_write_data(function)

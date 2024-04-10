@@ -26,7 +26,7 @@ class Websockets:
             api_id = self.websocket.ref,
         )
 
-    def create_route(self, function, route_key="$connect"):
+    def create_route(self, route_key, function ):
 
         connect_integration = apiv2.CfnIntegration(
             self.scope,
