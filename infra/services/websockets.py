@@ -59,9 +59,6 @@ class Websockets:
         
         deployment_id = f"WebSocketDeployment{config_hash[:8]}"  # Use part of the hash to keep the ID manageable
 
-
-        
-
         deployment = apiv2.CfnDeployment(
             self.scope,
             deployment_id,
