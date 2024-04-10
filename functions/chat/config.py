@@ -10,6 +10,6 @@ class ChatConfig:
             description="real time chat",
         )
 
-        services.websockets.create_websocket(name="Chat", function=function)
+        services.websockets.create_websocket(name="MyWSSChat", function=function)
 
         services.dynamo_db.connections_table.grant_read_write_data(function)
