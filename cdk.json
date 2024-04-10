@@ -39,7 +39,7 @@
     "@aws-cdk/aws-route53-patters:useCertificate": true,
     "@aws-cdk/customresources:installLatestAwsSdkDefault": false,
     "region": "us-east-2",
-    "account": "",
+    "account": "211125768252",
     "name": "Lambda-Forge-Sandbox",
     "repo": {
       "owner": "GuiPimenta-Dev",
