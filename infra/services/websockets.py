@@ -42,54 +42,17 @@ class Websockets:
             route_key="$connect",
             authorization_type="NONE",
             operation_name=f"{self.context.stage}-{name}-ConnectRoute",
-            target="integrations/" + connect_integration.ref,
+            target=f"integrations/{connect_integration.ref}",
         )
 
-        # # #Disconnect route
-        # disconnect_integration = apiv2.CfnIntegration(
-        #     self.scope,
-        #     f"{self.context.stage}-{name}-DisconnectIntegration",
-        #     api_id=websocketgw.ref,
-        #     description="Disconnect Integration",
-        #     integration_type="AWS_PROXY",
-        #     integration_uri=f"arn:aws:apigateway:{self.context.region}:lambda:path/2015-03-31/functions/{disconnect_function.function_arn}/invocations",
-        # )
-        # disconnect_route = apiv2.CfnRoute(
-        #     self.scope,
-        #     f"{self.context.stage}-{name}-DisconnectRoute",
-        #     api_id=websocketgw.ref,
-        #     route_key="$disconnect",
-        #     authorization_type="NONE",
-        #     operation_name=f"{self.context.stage}-{name}-DisconnectRoute",
-        #     target="integrations/" + disconnect_integration.ref,
-        # )
-
-        # # Send Route
-        # sendmessage_integration = apiv2.CfnIntegration(
-        #     self.scope,
-        #     f"{self.context.stage}-{name}-SendMessageIntegration",
-        #     api_id=websocketgw.ref,
-        #     description="sendmessage Integration",
-        #     integration_type="AWS_PROXY",
-        #     integration_uri=f"arn:aws:apigateway:{self.context.region}:lambda:path/2015-03-31/functions/{function.function_arn}/invocations",
-        # )
-        # sendmessage_route = apiv2.CfnRoute(
-        #     self.scope,
-        #     f"{self.context.stage}-{name}-SendMessageRoute",
-        #     api_id=websocketgw.ref,
-        #     route_key="sendmessage",
-        #     authorization_type="NONE",
-        #     operation_name=f"{self.context.stage}-{name}-SendMessageRoute",
-        #     target="integrations/" + sendmessage_integration.ref,
-        # )
+        
 
         deployment = apiv2.CfnDeployment(
             self.scope,
             f"{self.context.stage}-{name}-WSSDeployment",
             api_id=websocketgw.ref,
         )
-        # deployment.add_depends_on(sendmessage_route)
-        # deployment.add_depends_on(disconnect_route)
+        deployment.add_depends_on(connect_route)
 
         stage = apiv2.CfnStage(self.scope, 
             f"{self.context.stage}-{name}-WSSStage",
