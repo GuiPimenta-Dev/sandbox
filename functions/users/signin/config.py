@@ -22,3 +22,5 @@ class SigninConfig:
         services.dynamo_db.users_table.grant_read_data(function)
 
         services.kms.signup_key.grant_decrypt(function)
+
+        services.secrets_manager.jwt_secret.grant_read(function)

@@ -10,6 +10,9 @@ def get_secret(secret_name: str):
 
     # Retrieve the secret value from Secrets Manager
     response = sm_client.get_secret_value(SecretId=secret_name)
-    secret = json.loads(response["SecretString"])
+    try:
+        secret = json.loads(response["SecretString"])
+    except json.JSONDecodeError:
+        secret = response["SecretString"]
 
     return secret
