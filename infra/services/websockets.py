@@ -90,6 +90,14 @@ class Websockets:
         deployment.add_depends_on(connect_route)
         deployment.add_depends_on(disconnect_route)
 
+        apiv2.CfnStage(self.scope, 
+            f"{self.context.stage}-{name}-WSSStage",
+            stage_name= self.context.stage.lower(),
+            description= 'prod stage',
+            api_id = websocketgw.ref,
+        )
+
+
         # core.CfnOutput(self,'WebSocketURI',
         #     value = f'wss://{websocketgw.ref}.execute-api.{self.context.region}.amazonaws.com/prod',
         #     description = 'URI of websocket'
