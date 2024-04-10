@@ -25,13 +25,7 @@ def lambda_handler(event, context):
 
 
 def add_connection(connection_id):
-    apig_management = boto3.client(
-        "apigatewaymanagementapi", endpoint_url="https://ket88veuw8.execute-api.us-east-2.amazonaws.com/dev"
-    )
-    apig_management.post_to_connection(
-                    ConnectionId=connection_id,
-                    Data=json.dumps({"message": "Hey There!"}).encode("utf-8"),
-                )
+    connections_table.put_item(Key={"connectionId": connection_id})
 
 
 def delete_connection(connection_id):

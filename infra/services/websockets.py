@@ -6,22 +6,23 @@ from aws_cdk import (
 )
 
 class Websockets:
-    def __init__(self, scope, context) -> None:
+    def __init__(self, scope, context, name=None) -> None:
         self.scope = scope
         self.context = context
+        self.name = name or context.name
 
         self.websocket = apiv2.CfnApi(
             self.scope,
-            f"{self.context.stage}-{context.name}-WebSocket",
-            name=f"{self.context.stage}-{context.name}-WebSocket",
+            f"{self.context.stage}-{self.name}-WebSocket",
+            name=f"{self.context.stage}-{self.name}-WebSocket",
             protocol_type="WEBSOCKET",
             route_selection_expression="$request.body.action",
         )
 
         apiv2.CfnStage(self.scope, 
-            f"{self.context.stage}-{self.context.name}-WSSStage",
+            f"{self.context.stage}-{self.name}-WSSStage",
             stage_name= self.context.stage.lower(),
-            description= f"{self.context.stage}-{self.context.name}-WSSStage",
+            description= f"{self.context.stage}-{self.name}-WSSStage",
             api_id = self.websocket.ref,
         )
 
@@ -29,30 +30,29 @@ class Websockets:
 
         connect_integration = apiv2.CfnIntegration(
             self.scope,
-            f"{self.context.stage}-{self.context.name}-ConnectIntegration",
+            f"{self.context.stage}-{route_key}-{self.name}-Integration",
             api_id=self.websocket.ref,
-            description=f"{self.context.stage}-{self.context.name}-ConnectIntegration",
+            description=f"{self.context.stage}-{route_key}-{self.name}-Integration",
             integration_type="AWS_PROXY",
             integration_uri=f"arn:aws:apigateway:{self.context.region}:lambda:path/2015-03-31/functions/{function.function_arn}/invocations",
         )
 
-        connect_route = apiv2.CfnRoute(
+        route = apiv2.CfnRoute(
             self.scope,
-            f"{self.context.stage}-{self.context.name}-ConnectRoute",
+            f"{self.context.stage}-{route_key}-Route",
             api_id=self.websocket.ref,
             route_key=route_key,
             authorization_type="NONE",
-            operation_name=f"{self.context.stage}-{self.context.name}-ConnectRoute",
+            operation_name=f"{self.context.stage}-{route_key}-{self.name}-Route",
             target=f"integrations/{connect_integration.ref}",
         )
 
-
         deployment = apiv2.CfnDeployment(
             self.scope,
-            f"{self.context.stage}-{self.context.name}-WSSDeployment",
+            f"{self.context.stage}-{route_key}-{self.name}-WSSDeployment",
             api_id=self.websocket.ref,
         )
-        deployment.add_depends_on(connect_route)
+        deployment.add_depends_on(route)
 
         function.add_to_role_policy(
             iam.PolicyStatement(
