@@ -9,4 +9,3 @@ class KMS:
             "SignUpKey",
             key_arn="arn:aws:kms:us-east-2:211125768252:key/bb085039-a653-4b38-abad-b6dd4ce11ea4",
         )
-    

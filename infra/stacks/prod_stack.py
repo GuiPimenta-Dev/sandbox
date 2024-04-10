@@ -6,6 +6,7 @@ from constructs import Construct
 from infra.stages.deploy import DeployStage
 from lambda_forge import context, create_context, Steps
 
+
 @context(
     stage="Prod",
     resources="prod",
@@ -15,7 +16,9 @@ class ProdStack(cdk.Stack):
     def __init__(self, scope: Construct, context, **kwargs) -> None:
         super().__init__(scope, f"{context.stage}-{context.name}-Stack", **kwargs)
 
-        source = CodePipelineSource.git_hub(f"{context.repo['owner']}/{context.repo['name']}", "main")
+        source = CodePipelineSource.git_hub(
+            f"{context.repo['owner']}/{context.repo['name']}", "main"
+        )
 
         pipeline = pipelines.CodePipeline(
             self,
@@ -48,12 +51,7 @@ class ProdStack(cdk.Stack):
 
         pipeline.add_stage(
             DeployStage(self, context.staging),
-            pre=[
-                unit_tests,
-                coverage,
-                validate_integration_tests,
-                validate_docs
-            ],
+            pre=[unit_tests, coverage, validate_integration_tests, validate_docs],
             post=[integration_tests],
         )
 

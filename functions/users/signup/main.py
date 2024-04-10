@@ -17,12 +17,9 @@ class Output:
 
 
 def encrypt_with_kms(plaintext: str, kms_key_id: str) -> str:
-    kms_client = boto3.client('kms')
-    response = kms_client.encrypt(
-        KeyId=kms_key_id,
-        Plaintext=plaintext.encode()
-    )
-    return response['CiphertextBlob']
+    kms_client = boto3.client("kms")
+    response = kms_client.encrypt(KeyId=kms_key_id, Plaintext=plaintext.encode())
+    return response["CiphertextBlob"]
 
 
 def lambda_handler(event, context):
@@ -42,7 +39,10 @@ def lambda_handler(event, context):
     # Verify if the user already exists.
     user = users_table.get_item(Key={"PK": body["email"]})
     if user.get("Item"):
-        return {"statusCode": 400, "body": json.dumps({"message": "User already exists"})}
+        return {
+            "statusCode": 400,
+            "body": json.dumps({"message": "User already exists"}),
+        }
 
     # Encrypt the password using KMS.
     encrypted_password = encrypt_with_kms(body["password"], KMS_KEY_ID)

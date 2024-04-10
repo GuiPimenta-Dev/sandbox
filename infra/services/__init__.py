@@ -1,3 +1,4 @@
+from infra.services.dynamo_db import DynamoDB
 from infra.services.secrets_manager import SecretsManager
 from infra.services.kms import KMS
 from infra.services.api_gateway import APIGateway
@@ -12,3 +13,4 @@ class Services:
         self.layers = Layers(scope)
         self.kms = KMS(scope, context)
         self.secrets_manager = SecretsManager(scope, context)
+        self.dynamo_db = DynamoDB(scope, context)

@@ -1,7 +1,7 @@
 from infra.services import Services
 
 
-class CreateUserConfig:
+class SignUpConfig:
     def __init__(self, services: Services) -> None:
 
         function = services.aws_lambda.create_function(
@@ -11,9 +11,12 @@ class CreateUserConfig:
             directory="create_user",
             environment={
                 "USERS_TABLE_NAME": services.dynamo_db.users_table.table_name,
+                "KMS_KEY_ID": services.kms.signup_key.key_id,
             },
         )
 
         services.api_gateway.create_endpoint("POST", "/users", function, public=True)
 
         services.dynamo_db.users_table.grant_write_data(function)
+
+        services.kms.signup_key.grant_encrypt(function)

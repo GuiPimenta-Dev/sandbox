@@ -9,5 +9,5 @@ class DeployStage(cdk.Stage):
         super().__init__(scope, context.stage, **kwargs)
 
         lambda_stack = LambdaStack(self, context)
-        
+
         lambda_stack.services.api_gateway.create_docs(authorizer=None)

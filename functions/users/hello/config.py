@@ -1,5 +1,6 @@
 from infra.services import Services
 
+
 class HelloConfig:
     def __init__(self, services: Services) -> None:
 
@@ -7,9 +8,7 @@ class HelloConfig:
             name="Hello",
             path="./functions/users",
             description="protected function",
-            directory="hello"
+            directory="hello",
         )
 
         services.api_gateway.create_endpoint("GET", "/users", function)
-
-            
