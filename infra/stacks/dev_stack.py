@@ -24,6 +24,7 @@ class DevStack(cdk.Stack):
                 input=source,
                 install_commands=[
                     "pip install lambda-forge --extra-index-url https://pypi.org/simple --extra-index-url https://test.pypi.org/simple/",
+                    "pip install aws_cdk.aws_apigatewayv2_integrations_alpha",
                     "pip install aws-cdk-lib",
                     "npm install -g aws-cdk",
                 ],
