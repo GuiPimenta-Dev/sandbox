@@ -64,7 +64,7 @@ class Websockets:
             deployment_id,
             api_id=websocketgw.ref,
         )
-        deployment.add_depends_on(connect_route)
+        deployment.add_dependency(connect_route)
 
         stage = apiv2.CfnStage(self.scope, 
             f"{self.context.stage}-{name}-WSSStage",
@@ -72,7 +72,7 @@ class Websockets:
             description= f"{self.context.stage}-{name}-WSSStage",
             api_id = websocketgw.ref,
         )
-        stage.add_depends_on(connect_route)
+        stage.add_dependency(connect_route)
 
 
         websocket_url = f"wss://{websocketgw.attr_api_endpoint}"
