@@ -45,11 +45,26 @@ class Websockets:
             target=f"integrations/{connect_integration.ref}",
         )
 
+        import hashlib
+        import json
+        
+
+        config_hash = hashlib.md5(
+        json.dumps({
+            # Include any relevant parts of your configuration that, when changed, should trigger a redeployment
+            "connect_function_arn": connect_function.function_arn,
+            # Add other configurations as needed
+        }, sort_keys=True).encode()
+    ).hexdigest()
+        
+        deployment_id = f"WebSocketDeployment{config_hash[:8]}"  # Use part of the hash to keep the ID manageable
+
+
         
 
         deployment = apiv2.CfnDeployment(
             self.scope,
-            f"{self.context.stage}-{name}-WSSDeployment",
+            deployment_id,
             api_id=websocketgw.ref,
         )
         deployment.add_depends_on(connect_route)
