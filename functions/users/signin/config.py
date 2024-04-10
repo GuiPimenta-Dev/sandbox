@@ -17,7 +17,7 @@ class SigninConfig:
             }
         )
 
-        services.api_gateway.create_endpoint("POST", "/users", function, public=True)
+        services.api_gateway.create_endpoint("POST", "/signin", function, public=True)
 
         services.dynamo_db.users_table.grant_read_data(function)
 

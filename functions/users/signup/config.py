@@ -15,7 +15,7 @@ class SignUpConfig:
             },
         )
 
-        services.api_gateway.create_endpoint("POST", "/users", function, public=True)
+        services.api_gateway.create_endpoint("POST", "/signup", function, public=True)
 
         services.dynamo_db.users_table.grant_write_data(function)
 
