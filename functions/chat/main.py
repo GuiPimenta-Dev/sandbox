@@ -6,7 +6,7 @@ dynamodb = boto3.resource("dynamodb")
 connections_table = dynamodb.Table("Connections")
 
 
-def main(event, context):
+def lambda_handler(event, context):
 
     connection_id = event["requestContext"]["connectionId"]
     route_key = event["requestContext"]["routeKey"]
