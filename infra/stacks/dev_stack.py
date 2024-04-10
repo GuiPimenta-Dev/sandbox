@@ -2,8 +2,9 @@ import aws_cdk as cdk
 from aws_cdk import pipelines as pipelines
 from aws_cdk.pipelines import CodePipelineSource
 from constructs import Construct
-from infra.stages.deploy import DeployStage
 from lambda_forge import context
+
+from infra.stages.deploy import DeployStage
 
 
 @context(stage="Dev", resources="dev")
@@ -14,7 +15,7 @@ class DevStack(cdk.Stack):
         source = CodePipelineSource.git_hub(
             f"{context.repo['owner']}/{context.repo['name']}", "dev"
         )
-        
+
         pipeline = pipelines.CodePipeline(
             self,
             "Pipeline",

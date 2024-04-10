@@ -14,8 +14,9 @@ def generate_policy(effect, resource):
 
 
 def lambda_handler(event, context):
+    print(event)
     # Extract the JWT token from the event
-    token = event.get("authorizationToken")
+    token = event["headers"].get("authorization")
 
     # If token is missing, deny access
     if not token:
@@ -31,6 +32,7 @@ def lambda_handler(event, context):
                 ],
             }
         }
+    
 
     try:
         # Decode the JWT token
@@ -41,7 +43,8 @@ def lambda_handler(event, context):
         effect = "Deny"
         email = None
 
-    context["email"] = email
+
+    context = {"email": email}
 
     # Allow access with the user's email
     return {
@@ -54,5 +57,7 @@ def lambda_handler(event, context):
                     "Resource": event["methodArn"],
                 }
             ],
-        }
+        },
+        "context": context,
+
     }

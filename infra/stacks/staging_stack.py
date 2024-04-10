@@ -2,9 +2,9 @@ import aws_cdk as cdk
 from aws_cdk import pipelines as pipelines
 from aws_cdk.pipelines import CodePipelineSource
 from constructs import Construct
+from lambda_forge import Steps, context
 
 from infra.stages.deploy import DeployStage
-from lambda_forge import context, Steps
 
 
 @context(stage="Staging", resources="staging")

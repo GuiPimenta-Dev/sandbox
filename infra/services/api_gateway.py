@@ -1,8 +1,8 @@
 from aws_cdk import Duration
 from aws_cdk import aws_apigateway as apigateway
 from aws_cdk import aws_iam as iam
-from lambda_forge.interfaces import IAPIGateway
 from lambda_forge import track
+from lambda_forge.interfaces import IAPIGateway
 
 
 class APIGateway(IAPIGateway):

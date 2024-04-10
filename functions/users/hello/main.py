@@ -13,13 +13,13 @@ class Output:
 
 
 def lambda_handler(event, context):
-
-    user_email = context.get("email")
+    
+    email = event["requestContext"]["authorizer"]["email"]
 
     # Your function logic here
-    if user_email:
+    if email:
         # Process the request with user_email
-        return {"statusCode": 200, "body": f"Hello, {user_email}!"}
+        return {"statusCode": 200, "body": json.dumps({"message": f"Hello, {email}!"})}
     else:
         # Handle the case where user_email is not available
         return {"statusCode": 401, "body": "Unauthorized"}

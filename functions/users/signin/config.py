@@ -14,7 +14,7 @@ class SigninConfig:
                 "USERS_TABLE_NAME": services.dynamo_db.users_table.table_name,
                 "KMS_KEY_ID": services.kms.signup_key.key_id,
                 "JWT_SECRET_NAME": services.secrets_manager.jwt_secret.secret_name,
-            }
+            },
         )
 
         services.api_gateway.create_endpoint("POST", "/signin", function, public=True)
