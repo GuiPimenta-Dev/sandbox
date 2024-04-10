@@ -1,10 +1,9 @@
 
 from aws_cdk import (
+    aws_lambda,
     aws_apigatewayv2 as apiv2,
-
+    aws_iam as iam,
 )
-import hashlib
-import json
 
 class Websockets:
     def __init__(self, scope, context) -> None:
@@ -19,9 +18,14 @@ class Websockets:
             route_selection_expression="$request.body.action",
         )
 
-    def create_route(
-        self, function
-    ):
+        apiv2.CfnStage(self.scope, 
+            f"{self.context.stage}-{self.context.name}-WSSStage",
+            stage_name= self.context.stage.lower(),
+            description= f"{self.context.stage}-{self.context.name}-WSSStage",
+            api_id = self.websocket.ref,
+        )
+
+    def create_route(self, function, route_key="$connect"):
 
         connect_integration = apiv2.CfnIntegration(
             self.scope,
@@ -36,37 +40,28 @@ class Websockets:
             self.scope,
             f"{self.context.stage}-{self.context.name}-ConnectRoute",
             api_id=self.websocket.ref,
-            route_key="$connect",
+            route_key=route_key,
             authorization_type="NONE",
             operation_name=f"{self.context.stage}-{self.context.name}-ConnectRoute",
             target=f"integrations/{connect_integration.ref}",
         )
 
 
-        
-
-        config_hash = hashlib.md5(
-        json.dumps({
-            # Include any relevant parts of your configuration that, when changed, should trigger a redeployment
-            "connect_function_arn": function.function_arn,
-            # Add other configurations as needed
-        }, sort_keys=True).encode()
-    ).hexdigest()
-        
-        deployment_id = f"WebSocketDeployment{config_hash[:8]}"  # Use part of the hash to keep the ID manageable
-
         deployment = apiv2.CfnDeployment(
             self.scope,
-            deployment_id,
+            f"{self.context.stage}-{self.context.name}-WSSDeployment",
             api_id=self.websocket.ref,
         )
         deployment.add_depends_on(connect_route)
 
-        stage = apiv2.CfnStage(self.scope, 
-            f"{self.context.stage}-{self.context.name}-WSSStage",
-            stage_name= self.context.stage.lower(),
-            description= f"{self.context.stage}-{self.context.name}-WSSStage",
-            api_id = self.websocket.ref,
+        function.add_to_role_policy(
+            iam.PolicyStatement(
+                actions=["execute-api:ManageConnections"],
+                resources=[
+                    f"arn:aws:execute-api:{self.context.region}:{self.context.account}:{self.websocket.ref}/*",
+                    f"arn:aws:execute-api:{self.context.region}:{self.context.account}:{self.websocket.ref}/{self.context.stage.lower()}/POST/@connections/*",
+                ],
+            )
         )
 
         websocket_url = f"wss://{self.websocket.attr_api_endpoint}"
