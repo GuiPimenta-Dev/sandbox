@@ -13,7 +13,7 @@ class SigninConfig:
             environment={
                 "USERS_TABLE_NAME": services.dynamo_db.users_table.table_name,
                 "KMS_KEY_ID": services.kms.signup_key.key_id,
-                "JWT_SECRET": services.secrets_manager.jwt_secret.secret_name,
+                "JWT_SECRET_NAME": services.secrets_manager.jwt_secret.secret_name,
             }
         )
 

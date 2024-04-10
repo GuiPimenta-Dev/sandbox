@@ -28,9 +28,9 @@ def decrypt_with_kms(ciphertext_blob: bytes, kms_key_id: str) -> str:
 
 def lambda_handler(event, context):
     # Retrieve the DynamoDB table name and KMS key ID from environment variables.
-    USERS_TABLE_NAME = os.environ.get("USERS_TABLE_NAME", "Dev-Users")
-    KMS_KEY_ID = os.environ.get("KMS_KEY_ID", "bb085039-a653-4b38-abad-b6dd4ce11ea4")
-    JWT_SECRET_NAME = os.environ.get("JWT_SECRET_NAME", "abc")
+    USERS_TABLE_NAME = os.environ.get("USERS_TABLE_NAME")
+    KMS_KEY_ID = os.environ.get("KMS_KEY_ID")
+    JWT_SECRET_NAME = os.environ.get("JWT_SECRET_NAME")
 
     JWT_SECRET = sm_utils.get_secret(JWT_SECRET_NAME)
 

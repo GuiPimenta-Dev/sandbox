@@ -24,8 +24,8 @@ def encrypt_with_kms(plaintext: str, kms_key_id: str) -> str:
 
 def lambda_handler(event, context):
     # Retrieve the DynamoDB table name and KMS key ID from environment variables.
-    USERS_TABLE_NAME = os.environ.get("USERS_TABLE_NAME", "Dev-Users")
-    KMS_KEY_ID = os.environ.get("KMS_KEY_ID", "bb085039-a653-4b38-abad-b6dd4ce11ea4")
+    USERS_TABLE_NAME = os.environ.get("USERS_TABLE_NAME")
+    KMS_KEY_ID = os.environ.get("KMS_KEY_ID")
 
     # Initialize a DynamoDB resource.
     dynamodb = boto3.resource("dynamodb")
