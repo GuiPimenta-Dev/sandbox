@@ -35,7 +35,7 @@ def delete_connection(connection_id):
 def broadcast_message(message_body, sender_id):
     connections = connections_table.scan()["Items"]
     apig_management = boto3.client(
-        "apigatewaymanagementapi", endpoint_url="your_endpoint_url_here"
+        "apigatewaymanagementapi", endpoint_url="https://tmr3tat2fd.execute-api.us-east-2.amazonaws.com/dev"
     )
     for connection in connections:
         connection_id = connection["connectionId"]

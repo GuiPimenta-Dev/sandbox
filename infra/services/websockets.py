@@ -93,44 +93,13 @@ class Websockets:
         apiv2.CfnStage(self.scope, 
             f"{self.context.stage}-{name}-WSSStage",
             stage_name= self.context.stage.lower(),
-            description= 'prod stage',
+            description= f"{self.context.stage}-{name}-WSSStage",
             api_id = websocketgw.ref,
         )
 
+        websocket_url = f"wss://{websocketgw.attr_api_endpoint}"
 
-        # core.CfnOutput(self,'WebSocketURI',
-        #     value = f'wss://{websocketgw.ref}.execute-api.{self.context.region}.amazonaws.com/prod',
-        #     description = 'URI of websocket'
-        # )
+        return websocket_url
 
-        # websocket = apigateway.WebSocketApi(
-        #     self.scope,
-        #     f"{self.context.stage}-{name}-WebSocket",
-        #     connect_route_options=apigateway.WebSocketRouteOptions(
-        #         integration=integrations.LambdaWebSocketIntegration(
-        #             handler=connect_handler
-        #         )
-        #     ),
-        #     disconnect_route_options=apigateway.WebSocketRouteOptions(
-        #         integration=integrations.LambdaWebSocketIntegration(
-        #             handler=disconnect_handler
-        #         )
-        #     ),
-        #     default_route_options=apigateway.WebSocketRouteOptions(
-        #         integration=integrations.LambdaWebSocketIntegration(handler=function)
-        #     ),
-        # )
 
-        # apigateway.WebSocketStage(
-        #     self.scope,
-        #     f"{self.context.stage}-{name}-WebSocket-Stage",
-        #     websocket_api=websocket,
-        #     stage_name=self.context.stage.lower(),
-        #     auto_deploy=True,
-        # )
-
-        # core.CfnOutput(
-        #     self,
-        #     f"{self.context.stage}-{name}-WebSocket-URL",
-        #     value=websocket.api_endpoint,
-        # )
+       
