@@ -6,7 +6,7 @@ class SignUpConfig:
 
         function = services.aws_lambda.create_function(
             name="CreateUser",
-            path="./functions/users",
+            path="./functions/auth",
             description="Create a user with name and age on Dynamo DB",
             directory="signup",
             environment={

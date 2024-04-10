@@ -1,11 +1,12 @@
+from functions.chat.config import ChatConfig
 from aws_cdk import Stack
 from constructs import Construct
 from lambda_forge import release
 
 from authorizers.jwt.config import JwtAuthorizerConfig
-from functions.users.hello.config import HelloConfig
-from functions.users.signin.config import SigninConfig
-from functions.users.signup.config import SignUpConfig
+from functions.auth.signin.config import SigninConfig
+from functions.auth.signup.config import SignUpConfig
+from functions.hello.config import HelloConfig
 from infra.services import Services
 
 
@@ -24,3 +25,6 @@ class LambdaStack(Stack):
         HelloConfig(self.services)
         SigninConfig(self.services)
         SignUpConfig(self.services)
+
+        # Chat
+        ChatConfig(self.services)

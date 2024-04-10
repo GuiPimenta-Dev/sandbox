@@ -4,6 +4,7 @@ from infra.services.dynamo_db import DynamoDB
 from infra.services.kms import KMS
 from infra.services.layers import Layers
 from infra.services.secrets_manager import SecretsManager
+from infra.services.websockets import Websockets
 
 
 class Services:
@@ -14,3 +15,4 @@ class Services:
         self.kms = KMS(scope, context)
         self.secrets_manager = SecretsManager(scope, context)
         self.dynamo_db = DynamoDB(scope, context)
+        self.websockets = Websockets(scope, context)

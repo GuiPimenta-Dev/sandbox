@@ -11,6 +11,12 @@ class DynamoDB:
             "arn:aws:dynamodb:us-east-2:211125768252:table/Dev-Users",
         )
 
+        self.connections_table = dynamo_db.Table.from_table_arn(
+            scope,
+            "ConnectionsTable",
+            "arn:aws:dynamodb:us-east-2:211125768252:table/Connections",
+        )
+
     @staticmethod
     def add_query_permission(table, function):
         function.add_to_role_policy(

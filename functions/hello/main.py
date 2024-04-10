@@ -13,7 +13,7 @@ class Output:
 
 
 def lambda_handler(event, context):
-    
+
     email = event["requestContext"]["authorizer"]["email"]
 
     # Your function logic here

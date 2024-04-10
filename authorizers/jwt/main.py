@@ -32,7 +32,6 @@ def lambda_handler(event, context):
                 ],
             }
         }
-    
 
     try:
         # Decode the JWT token
@@ -42,7 +41,6 @@ def lambda_handler(event, context):
     except:
         effect = "Deny"
         email = None
-
 
     context = {"email": email}
 
@@ -59,5 +57,4 @@ def lambda_handler(event, context):
             ],
         },
         "context": context,
-
     }

@@ -6,7 +6,7 @@ class SigninConfig:
 
         function = services.aws_lambda.create_function(
             name="Signin",
-            path="./functions/users",
+            path="./functions/auth",
             description="Signin function",
             directory="signin",
             layers=[services.layers.sm_utils_layer, services.layers.jwt_layer],

@@ -5,6 +5,7 @@ import jwt
 import boto3
 import sm_utils
 
+
 @dataclass
 class Input:
     email: str
