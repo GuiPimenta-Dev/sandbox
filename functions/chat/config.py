@@ -5,7 +5,7 @@ class ChatConfig:
     def __init__(self, services: Services) -> None:
 
         function = services.aws_lambda.create_function(
-            name="Chat",
+            name="MyChat",
             path="./functions/chat",
             description="real time chat",
         )
