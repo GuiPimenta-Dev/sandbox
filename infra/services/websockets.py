@@ -27,6 +27,14 @@ class Websockets:
             auto_deploy=True,
         )
 
+    @property
+    def wss_url(self):
+        return f"wss://{self.websocket.attr_api_endpoint}"
+    
+    @property
+    def post_to_connection_url(self):
+        return f"https://{self.websocket.attr_api_endpoint}"
+
 
     def create_route(self, route_key, function ):
 
@@ -60,10 +68,3 @@ class Websockets:
         deployment.node.add_dependency(self.stage)
 
 
-    def get_websocket_url(self):
-        websocket_url = f"wss://{self.websocket.attr_api_endpoint}"
-        return websocket_url
-
-    def get_post_to_connection_url(self):
-        post_to_connection_url = f"https://{self.websocket.attr_api_endpoint}"
-        return post_to_connection_url
