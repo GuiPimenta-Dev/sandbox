@@ -1,3 +1,7 @@
+from functions.chat.send_message.config import SendMessageConfig
+from functions.chat.broadcast.config import BroadcastConfig
+from functions.chat.disconnect.config import DisconnectConfig
+from functions.chat.connect.config import ConnectConfig
 from functions.chat.config import ChatConfig
 from aws_cdk import Stack
 from constructs import Construct
@@ -27,4 +31,8 @@ class LambdaStack(Stack):
         SignUpConfig(self.services)
 
         # Chat
+        SendMessageConfig(self.services)
+        BroadcastConfig(self.services)
+        DisconnectConfig(self.services)
+        ConnectConfig(self.services)
         ChatConfig(self.services)
