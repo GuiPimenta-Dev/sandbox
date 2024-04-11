@@ -37,8 +37,7 @@ class Websockets:
 
 
     def create_route(self, route_key, function ):
-
-        route_key = route_key.replace("$", "")
+        route_key = route_key.replace("$", "").replace("/","")
 
         integration = WsLambdaIntegration(
             scope=self.scope,
