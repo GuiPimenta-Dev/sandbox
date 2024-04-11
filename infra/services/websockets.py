@@ -43,8 +43,8 @@ class Websockets:
 
         function = WsFunction(
             scope=self.scope,
-            id='TestFunction',
-            function_name='TestFunction',
+            id=f"{self.context.stage}-{self.name}-{route_key}",
+            function_name=f"{self.context.stage}-{self.name}-{route_key}",
             code=Code.from_inline(
                 'def handler(*args, **kwargs):\n'
                 '    return {\n'
