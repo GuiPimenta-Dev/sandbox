@@ -5,6 +5,7 @@ from lambda_forge import track
 from lambda_forge.interfaces import IAPIGateway
 from aws_cdk import CfnOutput
 
+
 class APIGateway(IAPIGateway):
     def __init__(self, scope, context) -> None:
         self.endpoints = {}
@@ -21,7 +22,6 @@ class APIGateway(IAPIGateway):
             binary_media_types=["multipart/form-data"],
             endpoint_export_name=f"{self.context.stage}-{self.context.name}-BASE-URL",
         )
-
 
     @track
     def create_endpoint(self, method, path, function, public=False, authorizer=None):

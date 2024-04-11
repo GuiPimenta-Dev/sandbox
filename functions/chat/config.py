@@ -12,7 +12,6 @@ class ChatConfig:
 
         # services.websockets.create_route("$connect", function)
         # services.websockets.create_route("$disconnect", function)
-        services.websockets.create_route("sendmessage", function)
-
+        services.websockets.create_route("sendWssMessage", function)
 
         services.dynamo_db.connections_table.grant_read_write_data(function)
