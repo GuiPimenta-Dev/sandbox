@@ -90,11 +90,6 @@
                 "description": "real time chat"
             },
             {
-                "name": "Broadcast",
-                "path": "./functions/chat/broadcast",
-                "description": "real time chat"
-            },
-            {
                 "name": "Disconnect",
                 "path": "./functions/chat/disconnect",
                 "description": "real time chat"
@@ -102,11 +97,6 @@
             {
                 "name": "Connect",
                 "path": "./functions/chat/connect",
-                "description": "real time chat"
-            },
-            {
-                "name": "Chat",
-                "path": "./functions/chat",
                 "description": "real time chat"
             }
         ]
