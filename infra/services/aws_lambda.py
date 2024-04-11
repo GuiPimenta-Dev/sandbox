@@ -1,7 +1,7 @@
 from aws_cdk import Duration
-from b_aws_websocket_api.ws_function import WsFunction as Function
+# from b_aws_websocket_api.ws_function import WsFunction as Function
 
-from aws_cdk.aws_lambda import Code, Runtime
+from aws_cdk.aws_lambda import Code, Function, Runtime
 from lambda_forge import Path, track
 from lambda_forge.interfaces import IAWSLambda
 
@@ -38,26 +38,4 @@ class AWSLambda(IAWSLambda):
 
         return function
 
-    def create_wss_function(
-        self,
-        name,
-        path,
-        description,
-        directory=None,
-        timeout=1,
-        layers=[],
-        environment={},
-    ):
 
-        return WsFunction(
-            scope=self.scope,
-            id=name,
-            description=description,
-            function_name=f"{self.context.stage}-{self.context.name}-{name}",
-            runtime=Runtime.PYTHON_3_9,
-            handler=Path.handler(directory),
-            environment=environment,
-            code=Code.from_asset(path=Path.function(path)),
-            layers=layers,
-            timeout=Duration.minutes(timeout),
-        )

@@ -4,7 +4,7 @@ from b_aws_websocket_api.ws_lambda_integration import WsLambdaIntegration
 from b_aws_websocket_api.ws_route import WsRoute
 from b_aws_websocket_api.ws_deployment import WsDeployment
 from b_aws_websocket_api.ws_function import WsFunction
-from aws_cdk.aws_lambda import Code, Runtime
+from aws_cdk.aws_lambda import Code, Runtime, CfnPermission
 
 
 class Websockets:
@@ -39,22 +39,13 @@ class Websockets:
     def create_route(self, route_key, function):
         route_key = route_key.replace("$", "").replace("/", "")
 
-        # function = WsFunction(
-        #     scope=self.scope,
-        #     id=f"{self.context.stage}-{self.name}-{route_key}",
-        #     function_name=f"{self.context.stage}-{self.name}-{route_key}",
-        #     code=Code.from_inline(
-        #         'def handler(*args, **kwargs):\n'
-        #         '    return {\n'
-        #         '        "isBase64Encoded": False,\n'
-        #         '        "statusCode": 200,\n'
-        #         '        "headers": {},\n'
-        #         '        "body": "{\\"message\\": \\"success\\"}"\n'
-        #         '    }\n'
-        #     ),
-        #     handler='index.handler',
-        #     runtime=Runtime.PYTHON_3_9,
-        # )
+        CfnPermission(
+            scope=self.scope,
+            id=f'{function}-{self.name}-{route_key}-Invoke',
+            action='lambda:InvokeFunction',
+            function_name=function.function_name,
+            principal='apigateway.amazonaws.com',
+        )
 
         integration = WsLambdaIntegration(
             scope=self.scope,
