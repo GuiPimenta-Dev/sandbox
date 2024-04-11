@@ -46,6 +46,17 @@ class Websockets:
             principal="apigateway.amazonaws.com",
         )
 
+        function.add_to_role_policy(
+            iam.PolicyStatement(
+                actions=[
+                    "execute-api:ManageConnections"
+                ],
+                resources=[
+                    f"arn:aws:execute-api:{self.context.region}:{self.context.account}:{self.websocket.ref}/*"
+                ]
+            )
+        )
+
 
         integration = WsLambdaIntegration(
             scope=self.scope,

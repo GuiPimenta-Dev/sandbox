@@ -11,3 +11,5 @@ def lambda_handler(event, context):
 
     connection_id = event["requestContext"]["connectionId"]
     connections_table.delete_item(Item={"PK": connection_id})
+
+    return {"statusCode": 200}
