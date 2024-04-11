@@ -36,11 +36,11 @@ class Websockets:
         return f"https://{self.websocket.attr_api_endpoint}"
 
     def create_route(self, route_key, function):
-        route_key = route_key.replace("$", "").replace("/", "")
+        route_name = route_key.replace("$", "").replace("/", "")
 
         CfnPermission(
             scope=self.scope,
-            id=f'{function}-{self.name}-{route_key}-Invoke',
+            id=f'{function}-{self.name}-{route_name}-Invoke',
             action='lambda:InvokeFunction',
             function_name=function.function_name,
             principal='apigateway.amazonaws.com',
@@ -48,15 +48,15 @@ class Websockets:
 
         integration = WsLambdaIntegration(
             scope=self.scope,
-            id=f"{self.context.stage}-{self.name}-Integration-{route_key}",
-            integration_name=f"{self.context.stage}-{self.name}-Integration-{route_key}",
+            id=f"{self.context.stage}-{self.name}-Integration-{route_name}",
+            integration_name=f"{self.context.stage}-{self.name}-Integration-{route_name}",
             ws_api=self.websocket,
             function=function,
         )
 
         route = WsRoute(
             scope=self.scope,
-            id=f"{self.context.stage}-{self.name}-Route-{route_key}",
+            id=f"{self.context.stage}-{self.name}-Route-{route_name}",
             ws_api=self.websocket,
             route_key=route_key,
             authorization_type="NONE",
@@ -66,7 +66,7 @@ class Websockets:
 
         deployment = WsDeployment(
             scope=self.scope,
-            id=f"{self.context.stage}-{self.name}-Deploy-{route_key}",
+            id=f"{self.context.stage}-{self.name}-Deploy-{route_name}",
             ws_stage=self.stage,
         )
 

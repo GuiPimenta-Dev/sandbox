@@ -3,8 +3,6 @@ from aws_cdk import aws_apigateway as apigateway
 from aws_cdk import aws_iam as iam
 from lambda_forge import track
 from lambda_forge.interfaces import IAPIGateway
-from aws_cdk import CfnOutput
-
 
 class APIGateway(IAPIGateway):
     def __init__(self, scope, context) -> None:
