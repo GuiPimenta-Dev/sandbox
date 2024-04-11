@@ -52,7 +52,7 @@ class Websockets:
                     "execute-api:ManageConnections"
                 ],
                 resources=[
-                    f"arn:aws:execute-api:{self.context.region}:{self.context.account}:{self.websocket.ref}/*"
+                    f"arn:aws:execute-api:{self.context.region}:{self.context.account}:{self.websocket.ref}/{self.context.stage}/POST/@connections/*"
                 ]
             )
         )
