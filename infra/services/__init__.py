@@ -15,5 +15,5 @@ class Services:
         self.kms = KMS(scope, context)
         self.secrets_manager = SecretsManager(scope, context)
         self.dynamo_db = DynamoDB(scope, context)
-        self.websockets = Websockets(scope, context)
+        # self.websockets = Websockets(scope, context)
         # self.websockets = NewWebsockets(scope, context)

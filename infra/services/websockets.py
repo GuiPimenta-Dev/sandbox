@@ -55,13 +55,19 @@ class Websockets:
         deployment.add_depends_on(route)
 
         function.add_to_role_policy(
-            iam.PolicyStatement(
+            
+            [iam.PolicyStatement(
                 actions=["execute-api:ManageConnections"],
                 resources=[
                     f"arn:aws:execute-api:{self.context.region}:{self.context.account}:{self.websocket.ref}/*",
                     f"arn:aws:execute-api:{self.context.region}:{self.context.account}:{self.websocket.ref}/{self.context.stage.lower()}/POST/@connections/*",
                 ],
+            ),
+            iam.PolicyStatement(
+                actions=["execute-api:Invoke"],
+                resources=[f"{self.websocket.ref}/{self.context.stage.lower()}/{route_key}"],
             )
+            ]
         )
 
         websocket_url = f"wss://{self.websocket.attr_api_endpoint}"

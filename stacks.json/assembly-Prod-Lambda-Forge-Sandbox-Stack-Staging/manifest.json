@@ -1,0 +1,281 @@
+{
+  "version": "20.0.0",
+  "artifacts": {
+    "ProdLambdaForgeSandboxStackStagingLambdaForgeSandboxLambdaStack7E3F3588.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "ProdLambdaForgeSandboxStackStagingLambdaForgeSandboxLambdaStack7E3F3588.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "ProdLambdaForgeSandboxStackStagingLambdaForgeSandboxLambdaStack7E3F3588": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "ProdLambdaForgeSandboxStackStagingLambdaForgeSandboxLambdaStack7E3F3588.template.json",
+        "validateOnSynth": true,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/fd56f8f203f9ccc19238cd6d72e9c7f96cb8bfc084f8cbab3d47905559659650.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "ProdLambdaForgeSandboxStackStagingLambdaForgeSandboxLambdaStack7E3F3588.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        },
+        "stackName": "Staging-Lambda-Forge-Sandbox-Lambda-Stack"
+      },
+      "dependencies": [
+        "ProdLambdaForgeSandboxStackStagingLambdaForgeSandboxLambdaStack7E3F3588.assets"
+      ],
+      "metadata": {
+        "/Prod-Lambda-Forge-Sandbox-Stack/Staging/Lambda-Forge-Sandbox-Lambda-Stack/Staging-Lambda-Forge-Sandbox-API/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "StagingLambdaForgeSandboxAPI00197C96"
+          }
+        ],
+        "/Prod-Lambda-Forge-Sandbox-Stack/Staging/Lambda-Forge-Sandbox-Lambda-Stack/Staging-Lambda-Forge-Sandbox-API/CloudWatchRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "StagingLambdaForgeSandboxAPICloudWatchRoleF0CCE85E"
+          }
+        ],
+        "/Prod-Lambda-Forge-Sandbox-Stack/Staging/Lambda-Forge-Sandbox-Lambda-Stack/Staging-Lambda-Forge-Sandbox-API/Account": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "StagingLambdaForgeSandboxAPIAccount790EFE6B"
+          }
+        ],
+        "/Prod-Lambda-Forge-Sandbox-Stack/Staging/Lambda-Forge-Sandbox-Lambda-Stack/Staging-Lambda-Forge-Sandbox-API/Deployment/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "StagingLambdaForgeSandboxAPIDeploymentD940DFB214a6c04a942d91b9b23fb08493da6c32"
+          }
+        ],
+        "/Prod-Lambda-Forge-Sandbox-Stack/Staging/Lambda-Forge-Sandbox-Lambda-Stack/Staging-Lambda-Forge-Sandbox-API/DeploymentStage.staging/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "StagingLambdaForgeSandboxAPIDeploymentStagestagingA85E601A"
+          }
+        ],
+        "/Prod-Lambda-Forge-Sandbox-Stack/Staging/Lambda-Forge-Sandbox-Lambda-Stack/Staging-Lambda-Forge-Sandbox-API/Endpoint": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "StagingLambdaForgeSandboxAPIEndpoint02EFC258"
+          }
+        ],
+        "/Prod-Lambda-Forge-Sandbox-Stack/Staging/Lambda-Forge-Sandbox-Lambda-Stack/Staging-Lambda-Forge-Sandbox-API/Default/users/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "StagingLambdaForgeSandboxAPIusers36E7BCB7"
+          }
+        ],
+        "/Prod-Lambda-Forge-Sandbox-Stack/Staging/Lambda-Forge-Sandbox-Lambda-Stack/Staging-Lambda-Forge-Sandbox-API/Default/users/GET/ApiPermission.ProdLambdaForgeSandboxStackStagingLambdaForgeSandboxLambdaStackStagingLambdaForgeSandboxAPI51435C6D.GET..users": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "StagingLambdaForgeSandboxAPIusersGETApiPermissionProdLambdaForgeSandboxStackStagingLambdaForgeSandboxLambdaStackStagingLambdaForgeSandboxAPI51435C6DGETusers0C79353F"
+          }
+        ],
+        "/Prod-Lambda-Forge-Sandbox-Stack/Staging/Lambda-Forge-Sandbox-Lambda-Stack/Staging-Lambda-Forge-Sandbox-API/Default/users/GET/ApiPermission.Test.ProdLambdaForgeSandboxStackStagingLambdaForgeSandboxLambdaStackStagingLambdaForgeSandboxAPI51435C6D.GET..users": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "StagingLambdaForgeSandboxAPIusersGETApiPermissionTestProdLambdaForgeSandboxStackStagingLambdaForgeSandboxLambdaStackStagingLambdaForgeSandboxAPI51435C6DGETusers07E17E11"
+          }
+        ],
+        "/Prod-Lambda-Forge-Sandbox-Stack/Staging/Lambda-Forge-Sandbox-Lambda-Stack/Staging-Lambda-Forge-Sandbox-API/Default/users/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "StagingLambdaForgeSandboxAPIusersGET43B3051D"
+          }
+        ],
+        "/Prod-Lambda-Forge-Sandbox-Stack/Staging/Lambda-Forge-Sandbox-Lambda-Stack/Staging-Lambda-Forge-Sandbox-API/Default/signin/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "StagingLambdaForgeSandboxAPIsignin40A78FC4"
+          }
+        ],
+        "/Prod-Lambda-Forge-Sandbox-Stack/Staging/Lambda-Forge-Sandbox-Lambda-Stack/Staging-Lambda-Forge-Sandbox-API/Default/signin/POST/ApiPermission.ProdLambdaForgeSandboxStackStagingLambdaForgeSandboxLambdaStackStagingLambdaForgeSandboxAPI51435C6D.POST..signin": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "StagingLambdaForgeSandboxAPIsigninPOSTApiPermissionProdLambdaForgeSandboxStackStagingLambdaForgeSandboxLambdaStackStagingLambdaForgeSandboxAPI51435C6DPOSTsignin226C17AE"
+          }
+        ],
+        "/Prod-Lambda-Forge-Sandbox-Stack/Staging/Lambda-Forge-Sandbox-Lambda-Stack/Staging-Lambda-Forge-Sandbox-API/Default/signin/POST/ApiPermission.Test.ProdLambdaForgeSandboxStackStagingLambdaForgeSandboxLambdaStackStagingLambdaForgeSandboxAPI51435C6D.POST..signin": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "StagingLambdaForgeSandboxAPIsigninPOSTApiPermissionTestProdLambdaForgeSandboxStackStagingLambdaForgeSandboxLambdaStackStagingLambdaForgeSandboxAPI51435C6DPOSTsignin20948A7A"
+          }
+        ],
+        "/Prod-Lambda-Forge-Sandbox-Stack/Staging/Lambda-Forge-Sandbox-Lambda-Stack/Staging-Lambda-Forge-Sandbox-API/Default/signin/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "StagingLambdaForgeSandboxAPIsigninPOST46D625E2"
+          }
+        ],
+        "/Prod-Lambda-Forge-Sandbox-Stack/Staging/Lambda-Forge-Sandbox-Lambda-Stack/Staging-Lambda-Forge-Sandbox-API/Default/signup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "StagingLambdaForgeSandboxAPIsignup021B5515"
+          }
+        ],
+        "/Prod-Lambda-Forge-Sandbox-Stack/Staging/Lambda-Forge-Sandbox-Lambda-Stack/Staging-Lambda-Forge-Sandbox-API/Default/signup/POST/ApiPermission.ProdLambdaForgeSandboxStackStagingLambdaForgeSandboxLambdaStackStagingLambdaForgeSandboxAPI51435C6D.POST..signup": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "StagingLambdaForgeSandboxAPIsignupPOSTApiPermissionProdLambdaForgeSandboxStackStagingLambdaForgeSandboxLambdaStackStagingLambdaForgeSandboxAPI51435C6DPOSTsignup8A7CFEB2"
+          }
+        ],
+        "/Prod-Lambda-Forge-Sandbox-Stack/Staging/Lambda-Forge-Sandbox-Lambda-Stack/Staging-Lambda-Forge-Sandbox-API/Default/signup/POST/ApiPermission.Test.ProdLambdaForgeSandboxStackStagingLambdaForgeSandboxLambdaStackStagingLambdaForgeSandboxAPI51435C6D.POST..signup": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "StagingLambdaForgeSandboxAPIsignupPOSTApiPermissionTestProdLambdaForgeSandboxStackStagingLambdaForgeSandboxLambdaStackStagingLambdaForgeSandboxAPI51435C6DPOSTsignup12374D4C"
+          }
+        ],
+        "/Prod-Lambda-Forge-Sandbox-Stack/Staging/Lambda-Forge-Sandbox-Lambda-Stack/Staging-Lambda-Forge-Sandbox-API/Default/signup/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "StagingLambdaForgeSandboxAPIsignupPOST2125FB23"
+          }
+        ],
+        "/Prod-Lambda-Forge-Sandbox-Stack/Staging/Lambda-Forge-Sandbox-Lambda-Stack/Staging-Lambda-Forge-Sandbox-API/Default/docs/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "StagingLambdaForgeSandboxAPIdocsB70107B0"
+          }
+        ],
+        "/Prod-Lambda-Forge-Sandbox-Stack/Staging/Lambda-Forge-Sandbox-Lambda-Stack/Staging-Lambda-Forge-Sandbox-API/Default/docs/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "StagingLambdaForgeSandboxAPIdocsGET7E159A7C"
+          }
+        ],
+        "/Prod-Lambda-Forge-Sandbox-Stack/Staging/Lambda-Forge-Sandbox-Lambda-Stack/Staging-Lambda-Forge-Sandbox-API-Output": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "StagingLambdaForgeSandboxAPIOutput"
+          }
+        ],
+        "/Prod-Lambda-Forge-Sandbox-Stack/Staging/Lambda-Forge-Sandbox-Lambda-Stack/SmUtilsLayer/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SmUtilsLayer59AEAA91"
+          }
+        ],
+        "/Prod-Lambda-Forge-Sandbox-Stack/Staging/Lambda-Forge-Sandbox-Lambda-Stack/JwtAuthorizer/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "JwtAuthorizerServiceRole7903A86B"
+          }
+        ],
+        "/Prod-Lambda-Forge-Sandbox-Stack/Staging/Lambda-Forge-Sandbox-Lambda-Stack/JwtAuthorizer/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "JwtAuthorizer08CECD9F"
+          }
+        ],
+        "/Prod-Lambda-Forge-Sandbox-Stack/Staging/Lambda-Forge-Sandbox-Lambda-Stack/JwtAuthorizer/ProdLambdaForgeSandboxStackStagingLambdaForgeSandboxLambdaStackjwtAuthorizerFBBE5F01:Permissions": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "JwtAuthorizerProdLambdaForgeSandboxStackStagingLambdaForgeSandboxLambdaStackjwtAuthorizerFBBE5F01Permissions832AD8DF"
+          }
+        ],
+        "/Prod-Lambda-Forge-Sandbox-Stack/Staging/Lambda-Forge-Sandbox-Lambda-Stack/jwt-Authorizer/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "jwtAuthorizer09E13E54"
+          }
+        ],
+        "/Prod-Lambda-Forge-Sandbox-Stack/Staging/Lambda-Forge-Sandbox-Lambda-Stack/Hello/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HelloServiceRole1E55EA16"
+          }
+        ],
+        "/Prod-Lambda-Forge-Sandbox-Stack/Staging/Lambda-Forge-Sandbox-Lambda-Stack/Hello/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Hello4A628BD4"
+          }
+        ],
+        "/Prod-Lambda-Forge-Sandbox-Stack/Staging/Lambda-Forge-Sandbox-Lambda-Stack/Signin/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SigninServiceRole24B8BB32"
+          }
+        ],
+        "/Prod-Lambda-Forge-Sandbox-Stack/Staging/Lambda-Forge-Sandbox-Lambda-Stack/Signin/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SigninServiceRoleDefaultPolicy0BDE1D8A"
+          }
+        ],
+        "/Prod-Lambda-Forge-Sandbox-Stack/Staging/Lambda-Forge-Sandbox-Lambda-Stack/Signin/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Signin352C80E6"
+          }
+        ],
+        "/Prod-Lambda-Forge-Sandbox-Stack/Staging/Lambda-Forge-Sandbox-Lambda-Stack/CreateUser/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CreateUserServiceRole583944EB"
+          }
+        ],
+        "/Prod-Lambda-Forge-Sandbox-Stack/Staging/Lambda-Forge-Sandbox-Lambda-Stack/CreateUser/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CreateUserServiceRoleDefaultPolicy44CE0BDC"
+          }
+        ],
+        "/Prod-Lambda-Forge-Sandbox-Stack/Staging/Lambda-Forge-Sandbox-Lambda-Stack/CreateUser/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CreateUser1C98808B"
+          }
+        ],
+        "/Prod-Lambda-Forge-Sandbox-Stack/Staging/Lambda-Forge-Sandbox-Lambda-Stack/docs-api-gateway-s3/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "docsapigateways364AE85AF"
+          }
+        ],
+        "/Prod-Lambda-Forge-Sandbox-Stack/Staging/Lambda-Forge-Sandbox-Lambda-Stack/docs-api-gateway-s3/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "docsapigateways3DefaultPolicyB31627B2"
+          }
+        ],
+        "/Prod-Lambda-Forge-Sandbox-Stack/Staging/Lambda-Forge-Sandbox-Lambda-Stack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/Prod-Lambda-Forge-Sandbox-Stack/Staging/Lambda-Forge-Sandbox-Lambda-Stack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/Prod-Lambda-Forge-Sandbox-Stack/Staging/Lambda-Forge-Sandbox-Lambda-Stack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/Prod-Lambda-Forge-Sandbox-Stack/Staging/Lambda-Forge-Sandbox-Lambda-Stack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "Prod-Lambda-Forge-Sandbox-Stack/Staging/Lambda-Forge-Sandbox-Lambda-Stack"
+    }
+  }
+}

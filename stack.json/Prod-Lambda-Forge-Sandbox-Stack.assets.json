@@ -1,0 +1,19 @@
+{
+  "version": "20.0.0",
+  "files": {
+    "4a7b71428618a7effa298281da61703d6cf00773bda57f66f1b9ecd57173c7d4": {
+      "source": {
+        "path": "Prod-Lambda-Forge-Sandbox-Stack.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-current_region": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "4a7b71428618a7effa298281da61703d6cf00773bda57f66f1b9ecd57173c7d4.json",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}
