@@ -28,7 +28,6 @@ class Websockets:
         )
 
 
-
     def create_route(self, route_key, function ):
 
         route_key = route_key.replace("$", "")
@@ -60,9 +59,11 @@ class Websockets:
         deployment.node.add_dependency(route)
         deployment.node.add_dependency(self.stage)
 
-        websocket_url = f"wss://{self.websocket.attr_api_endpoint}"
 
+    def get_websocket_url(self):
+        websocket_url = f"wss://{self.websocket.attr_api_endpoint}"
         return websocket_url
 
-
-       
+    def get_post_to_connection_url(self):
+        post_to_connection_url = f"https://{self.websocket.attr_api_endpoint}"
+        return post_to_connection_url
