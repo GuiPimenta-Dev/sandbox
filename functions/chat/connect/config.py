@@ -13,4 +13,4 @@ class ConnectConfig:
 
         services.websockets.create_route("$connect", function)
 
-        services.dynamo_db.connections_table.grant_read_data(function)
+        services.dynamo_db.connections_table.grant_write_data(function)
