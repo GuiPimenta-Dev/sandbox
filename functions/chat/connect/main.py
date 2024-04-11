@@ -11,4 +11,4 @@ def lambda_handler(event, context):
     connections_table = dynamodb.Table(CONNECTIONS_TABLE_NAME)
 
     connection_id = event["requestContext"]["connectionId"]
-    connections_table.put_item(Key={"connectionId": connection_id})
+    connections_table.put_item(Item={"PK": connection_id})

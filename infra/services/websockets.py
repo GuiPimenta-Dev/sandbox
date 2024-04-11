@@ -51,7 +51,6 @@ class Websockets:
             f"{function}-{self.name}-{route_name}-MngConn",
             action="execute-api:ManageConnections",
             principal=iam.ServicePrincipal("apigateway.amazonaws.com"),
-            statement_id=f"{function}-{self.name}-{route_name}-MngConn",
             source_arn=f"arn:aws:execute-api:{self.context.region}:{self.context.account}:{self.websocket.ref}/{self.stage.stage_name}/*",
         )
 
