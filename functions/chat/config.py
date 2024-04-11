@@ -8,6 +8,8 @@ class ChatConfig:
             name="Chat",
             path="./functions/chat",
             description="real time chat",
+            environment={"WSS_URL": services.websockets.wss_url}
+
         )
 
         # services.websockets.create_route("$connect", function)

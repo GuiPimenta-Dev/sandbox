@@ -3,8 +3,7 @@ from b_aws_websocket_api.ws_stage import WsStage
 from b_aws_websocket_api.ws_lambda_integration import WsLambdaIntegration
 from b_aws_websocket_api.ws_route import WsRoute
 from b_aws_websocket_api.ws_deployment import WsDeployment
-from b_aws_websocket_api.ws_function import WsFunction
-from aws_cdk.aws_lambda import Code, Runtime, CfnPermission
+from aws_cdk.aws_lambda import CfnPermission
 
 
 class Websockets:
