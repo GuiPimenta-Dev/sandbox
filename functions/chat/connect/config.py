@@ -11,7 +11,6 @@ class ConnectConfig:
             directory="connect",
             environment={
                 "CONNECTIONS_TABLE_NAME": services.dynamo_db.connections_table.table_name,
-                "POST_TO_CONNECTION_URL": services.websockets.post_to_connection_url,
             },
         )
 
