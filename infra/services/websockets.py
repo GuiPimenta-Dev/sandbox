@@ -3,7 +3,7 @@ from b_aws_websocket_api.ws_api import WsApi
 from b_aws_websocket_api.ws_stage import WsStage
 from b_aws_websocket_api.ws_lambda_integration import WsLambdaIntegration
 from b_aws_websocket_api.ws_route import WsRoute
-from  b_aws_websocket_api.ws_deployment import WsDeployment
+from b_aws_websocket_api.ws_deployment import WsDeployment
 
 
 class Websockets:
