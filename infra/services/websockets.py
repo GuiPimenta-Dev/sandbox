@@ -38,13 +38,20 @@ class Websockets:
     def create_route(self, route_key, function):
         route_name = route_key.replace("$", "").replace("/", "")
 
-        invoke_policy_statement = iam.PolicyStatement(
-            effect=iam.Effect.ALLOW,
-            actions=["lambda:InvokeFunction"],
-            resources=[function.function_arn]
+        CfnPermission(
+            scope=self.scope,
+            id=f"{function}-{self.name}-{route_name}-Invoke",
+            action="lambda:InvokeFunction",
+            function_name=function.function_name,
+            principal="apigateway.amazonaws.com",
         )
 
-        function.add_to_role_policy(invoke_policy_statement)
+        function.add_to_role_policy(
+            iam.PolicyStatement(
+                actions=["execute-api:ManageConnections"],
+                resources=["*"],
+            )
+        )
 
         integration = WsLambdaIntegration(
             scope=self.scope,
