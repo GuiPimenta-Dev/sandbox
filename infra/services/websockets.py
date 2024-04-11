@@ -4,7 +4,7 @@ from b_aws_websocket_api.ws_lambda_integration import WsLambdaIntegration
 from b_aws_websocket_api.ws_route import WsRoute
 from b_aws_websocket_api.ws_deployment import WsDeployment
 from aws_cdk.aws_lambda import CfnPermission
-
+from aws_cdk import aws_iam as iam
 
 class Websockets:
     def __init__(self, scope, context, name=None) -> None:
@@ -46,12 +46,13 @@ class Websockets:
             principal="apigateway.amazonaws.com",
         )
 
-        CfnPermission(
-            scope=self.scope,
-            id=f"{function}-{self.name}-{route_name}-MngConnections",
+
+        function.add_permission(
+            f"{function}-{self.name}-{route_name}-MngConn",
             action="execute-api:ManageConnections",
-            function_name=function.function_name,
-            principal="apigateway.amazonaws.com",
+            principal=iam.ServicePrincipal("apigateway.amazonaws.com"),
+            statement_id=f"{function}-{self.name}-{route_name}-MngConn",
+            source_arn=f"arn:aws:execute-api:{self.context.region}:{self.context.account}:{self.websocket.ref}/{self.stage.stage_name}/*",
         )
 
         integration = WsLambdaIntegration(
