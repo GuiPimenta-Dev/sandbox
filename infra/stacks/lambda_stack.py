@@ -26,5 +26,5 @@ class LambdaStack(Stack):
         SigninConfig(self.services)
         SignUpConfig(self.services)
 
-        # # Chat
-        # ChatConfig(self.services)
+        # Chat
+        ChatConfig(self.services)

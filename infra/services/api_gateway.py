@@ -19,9 +19,8 @@ class APIGateway(IAPIGateway):
             deploy_options={"stage_name": self.context.stage.lower()},
             endpoint_types=[apigateway.EndpointType.REGIONAL],
             binary_media_types=["multipart/form-data"],
-            endpoint_export_name=f"{self.context.stage}-{self.context.name}-API-Endpoint",
+            endpoint_export_name=f"{self.context.stage}-{self.context.name}-BASE-URL",
         )
-
 
 
     @track
