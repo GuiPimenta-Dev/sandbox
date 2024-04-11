@@ -10,8 +10,8 @@ class ChatConfig:
             description="real time chat",
         )
 
-        services.websockets.create_route("$connect", function)
-        services.websockets.create_route("$disconnect", function)
+        # services.websockets.create_route("$connect", function)
+        # services.websockets.create_route("$disconnect", function)
         services.websockets.create_route("sendmessage", function)
 
 

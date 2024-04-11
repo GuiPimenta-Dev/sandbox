@@ -41,22 +41,22 @@ class Websockets:
     def create_route(self, route_key, function ):
         route_key = route_key.replace("$", "").replace("/","")
 
-        function = WsFunction(
-            scope=self.scope,
-            id=f"{self.context.stage}-{self.name}-{route_key}",
-            function_name=f"{self.context.stage}-{self.name}-{route_key}",
-            code=Code.from_inline(
-                'def handler(*args, **kwargs):\n'
-                '    return {\n'
-                '        "isBase64Encoded": False,\n'
-                '        "statusCode": 200,\n'
-                '        "headers": {},\n'
-                '        "body": "{\\"message\\": \\"success\\"}"\n'
-                '    }\n'
-            ),
-            handler='index.handler',
-            runtime=Runtime.PYTHON_3_9,
-        )
+        # function = WsFunction(
+        #     scope=self.scope,
+        #     id=f"{self.context.stage}-{self.name}-{route_key}",
+        #     function_name=f"{self.context.stage}-{self.name}-{route_key}",
+        #     code=Code.from_inline(
+        #         'def handler(*args, **kwargs):\n'
+        #         '    return {\n'
+        #         '        "isBase64Encoded": False,\n'
+        #         '        "statusCode": 200,\n'
+        #         '        "headers": {},\n'
+        #         '        "body": "{\\"message\\": \\"success\\"}"\n'
+        #         '    }\n'
+        #     ),
+        #     handler='index.handler',
+        #     runtime=Runtime.PYTHON_3_9,
+        # )
 
 
         integration = WsLambdaIntegration(
