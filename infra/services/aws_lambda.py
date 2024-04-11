@@ -32,6 +32,7 @@ class AWSLambda(IAWSLambda):
             code=Code.from_asset(path=Path.function(path)),
             layers=layers,
             timeout=Duration.minutes(timeout),
+            asset_path=Path.function(path),
         )
 
         return function
