@@ -47,13 +47,6 @@ class Websockets:
         )
 
 
-        function.add_permission(
-            f"{function}-{self.name}-{route_name}-MngConn",
-            action="execute-api:ManageConnections",
-            principal=iam.ServicePrincipal("apigateway.amazonaws.com"),
-            source_arn=f"arn:aws:execute-api:{self.context.region}:{self.context.account}:{self.websocket.ref}/{self.stage.stage_name}/*",
-        )
-
         integration = WsLambdaIntegration(
             scope=self.scope,
             id=f"{self.context.stage}-{self.name}-Integration-{route_name}",
