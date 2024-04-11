@@ -1,4 +1,5 @@
 from aws_cdk import Duration
+
 # from b_aws_websocket_api.ws_function import WsFunction as Function
 
 from aws_cdk.aws_lambda import Code, Function, Runtime
@@ -37,5 +38,3 @@ class AWSLambda(IAWSLambda):
         )
 
         return function
-
-

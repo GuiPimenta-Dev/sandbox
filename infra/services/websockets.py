@@ -40,10 +40,18 @@ class Websockets:
 
         CfnPermission(
             scope=self.scope,
-            id=f'{function}-{self.name}-{route_name}-Invoke',
-            action='lambda:InvokeFunction',
+            id=f"{function}-{self.name}-{route_name}-Invoke",
+            action="lambda:InvokeFunction",
             function_name=function.function_name,
-            principal='apigateway.amazonaws.com',
+            principal="apigateway.amazonaws.com",
+        )
+
+        CfnPermission(
+            scope=self.scope,
+            id=f"{function}-{self.name}-{route_name}-MngConnections",
+            action="execute-api:ManageConnections",
+            function_name=function.function_name,
+            principal="apigateway.amazonaws.com",
         )
 
         integration = WsLambdaIntegration(

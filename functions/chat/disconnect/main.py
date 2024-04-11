@@ -2,8 +2,6 @@ import os
 import boto3
 
 
-
-
 def lambda_handler(event, context):
 
     dynamodb = boto3.resource("dynamodb")
@@ -13,4 +11,3 @@ def lambda_handler(event, context):
 
     connection_id = event["requestContext"]["connectionId"]
     connections_table.delete_item(Key={"connectionId": connection_id})
-

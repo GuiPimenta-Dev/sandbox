@@ -9,13 +9,15 @@ def lambda_handler(event, context):
 
     sender_id = event["requestContext"]["connectionId"]
 
-    connections = connections_table.scan()["Items"]
 
     # Use the actual table name
     dynamodb = boto3.resource("dynamodb")
 
     CONNECTIONS_TABLE_NAME = os.environ.get("CONNECTIONS_TABLE_NAME")
     connections_table = dynamodb.Table(CONNECTIONS_TABLE_NAME)
+    
+    connections = connections_table.scan()["Items"]
+
 
     POST_TO_CONNECTION_URL = os.environ.get("POST_TO_CONNECTION_URL")
 
@@ -24,12 +26,12 @@ def lambda_handler(event, context):
         endpoint_url=POST_TO_CONNECTION_URL,
     )
     for connection in connections:
-        connection_id = connection["connectionId"]
+        connection_id = connection["PK"]
         if connection_id != sender_id:
             try:
                 apig_management.post_to_connection(
                     ConnectionId=connection_id,
-                    Data=json.dumps({"message": event["body"], "senderId": sender_id}),
+                    Data=json.dumps({"message": json.loads(event["body"])["message"], "senderId": sender_id}),
                 )
             except Exception as e:
                 print(f"Error: {e}")

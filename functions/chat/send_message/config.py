@@ -1,5 +1,6 @@
 from infra.services import Services
 
+
 class SendMessageConfig:
     def __init__(self, services: Services) -> None:
 
@@ -8,9 +9,11 @@ class SendMessageConfig:
             path="./functions/chat",
             description="real time chat",
             directory="send_message",
-            environment={"CONNECTIONS_TABLE_NAME": services.dynamo_db.connections_table.table_name}
+            environment={
+                "CONNECTIONS_TABLE_NAME": services.dynamo_db.connections_table.table_name,
+                "POST_TO_CONNECTION_URL": services.websockets.post_to_connection_url,
+            },
         )
-
 
         services.websockets.create_route("sendMessage", function)
 

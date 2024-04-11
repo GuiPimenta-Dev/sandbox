@@ -1,5 +1,6 @@
 from infra.services import Services
 
+
 class DisconnectConfig:
     def __init__(self, services: Services) -> None:
 
@@ -8,7 +9,9 @@ class DisconnectConfig:
             path="./functions/chat",
             description="real time chat",
             directory="disconnect",
-            environment={"CONNECTIONS_TABLE_NAME": services.dynamo_db.connections_table.table_name}
+            environment={
+                "CONNECTIONS_TABLE_NAME": services.dynamo_db.connections_table.table_name
+            },
         )
 
         services.websockets.create_route("$disconnect", function)
