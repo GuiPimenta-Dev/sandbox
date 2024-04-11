@@ -27,6 +27,16 @@ class Websockets:
             auto_deploy=True,
         )
 
+        self.deployment = WsDeployment(
+            scope=self.scope,
+            id=f"{self.context.stage}-{self.name}-Deploy",
+            ws_stage=self.stage,
+        )
+
+        self.deployment.node.add_dependency(self.stage)
+
+
+
     @property
     def wss_url(self):
         return f"{self.websocket.attr_api_endpoint}/{self.context.stage.lower()}"
@@ -71,11 +81,4 @@ class Websockets:
             target=f"integrations/{integration.ref}",
         )
 
-        deployment = WsDeployment(
-            scope=self.scope,
-            id=f"{self.context.stage}-{self.name}-Deploy-{route_name}",
-            ws_stage=self.stage,
-        )
-
-        deployment.node.add_dependency(route)
-        deployment.node.add_dependency(self.stage)
+        self.deployment.node.add_dependency(route)
