@@ -5,7 +5,7 @@ class SendMessageConfig:
     def __init__(self, services: Services, context) -> None:
 
         function = services.aws_lambda.create_function(
-            name="Broadcast",
+            name="GroupBroadcast",
             path="./functions/chat",
             description="real time chat",
             directory="send_message",
