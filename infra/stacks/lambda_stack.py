@@ -32,7 +32,5 @@ class LambdaStack(Stack):
 
         # Chat
         SendMessageConfig(self.services)
-        BroadcastConfig(self.services)
         DisconnectConfig(self.services)
         ConnectConfig(self.services)
-        ChatConfig(self.services)

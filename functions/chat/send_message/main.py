@@ -38,5 +38,4 @@ def lambda_handler(event, context):
 
 
 
-def broadcast_message(message_body, sender_id):
     
