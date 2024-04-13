@@ -40,7 +40,7 @@
         "@aws-cdk/customresources:installLatestAwsSdkDefault": false,
         "region": "us-east-2",
         "account": "211125768252",
-        "name": "Lambda-Forge-WSS-Sandbox",
+        "name": "Lambda-Forge-Sandbox",
         "repo": {
             "owner": "GuiPimenta-Dev",
             "name": "sandbox"
