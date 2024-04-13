@@ -46,7 +46,7 @@
             "name": "sandbox"
         },
         "bucket": "gui-docs",
-        "coverage": 80,
+        "coverage": 85,
         "base_url": "",
         "dev": {
             "post_to_connection_url": "https://bmmmojxc5j.execute-api.us-east-2.amazonaws.com/dev",
