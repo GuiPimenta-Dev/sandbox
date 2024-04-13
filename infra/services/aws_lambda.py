@@ -1,10 +1,9 @@
 from aws_cdk import Duration
-
-# from b_aws_websocket_api.ws_function import WsFunction as Function
-
 from aws_cdk.aws_lambda import Code, Function, Runtime
 from lambda_forge import Path, track
 from lambda_forge.interfaces import IAWSLambda
+
+# from b_aws_websocket_api.ws_function import WsFunction as Function
 
 
 class AWSLambda(IAWSLambda):

@@ -7,8 +7,13 @@ class JwtAuthorizerConfig:
         function = services.aws_lambda.create_function(
             name="JwtAuthorizer",
             path="./authorizers/jwt",
-            layers=[services.layers.jwt_layer],
-            description="An authorizer for private lambda functions",
+            layers=[services.layers.sm_utils_layer, services.layers.pyjwt_layer],
+            description="A jwt authorizer for private lambda functions",
+            environment={
+                "JWT_SECRET_NAME": services.secrets_manager.jwt_secret.secret_name
+            },
         )
 
         services.api_gateway.create_authorizer(function, name="jwt", default=True)
+
+        services.secrets_manager.jwt_secret.grant_read(function)

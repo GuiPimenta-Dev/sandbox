@@ -1,6 +1,3 @@
-from functions.chat.send_message.config import SendMessageConfig
-from functions.chat.disconnect.config import DisconnectConfig
-from functions.chat.connect.config import ConnectConfig
 from aws_cdk import Stack
 from constructs import Construct
 from lambda_forge import release
@@ -8,6 +5,9 @@ from lambda_forge import release
 from authorizers.jwt.config import JwtAuthorizerConfig
 from functions.auth.signin.config import SigninConfig
 from functions.auth.signup.config import SignUpConfig
+from functions.chat.connect.config import ConnectConfig
+from functions.chat.disconnect.config import DisconnectConfig
+from functions.chat.send_message.config import SendMessageConfig
 from functions.hello.config import HelloConfig
 from infra.services import Services
 

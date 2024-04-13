@@ -64,7 +64,7 @@
             {
                 "name": "JwtAuthorizer",
                 "path": "./authorizers/jwt",
-                "description": "An authorizer for private lambda functions"
+                "description": "A jwt authorizer for private lambda functions"
             },
             {
                 "name": "Hello",
@@ -88,7 +88,7 @@
                 "endpoint": "/signup"
             },
             {
-                "name": "Broadcast",
+                "name": "GroupBroadcast",
                 "path": "./functions/chat/send_message",
                 "description": "real time chat"
             },

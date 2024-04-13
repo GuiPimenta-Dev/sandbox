@@ -1,20 +1,9 @@
+import os
 import jwt
-
-
-def generate_policy(effect, resource):
-    policy = {
-        "policyDocument": {
-            "Version": "2012-10-17",
-            "Statement": [
-                {"Action": "execute-api:Invoke", "Effect": effect, "Resource": resource}
-            ],
-        }
-    }
-    return policy
-
+import sm_utils
 
 def lambda_handler(event, context):
-    print(event)
+
     # Extract the JWT token from the event
     token = event["headers"].get("authorization")
 
@@ -26,7 +15,7 @@ def lambda_handler(event, context):
                 "Statement": [
                     {
                         "Action": "execute-api:Invoke",
-                        "Effect": "Deny",
+                        "Effect": "deny",
                         "Resource": event["methodArn"],
                     }
                 ],
@@ -34,12 +23,15 @@ def lambda_handler(event, context):
         }
 
     try:
+        JWT_SECRET_NAME = os.environ.get("JWT_SECRET_NAME")
+        JWT_SECRET = sm_utils.get_secret(JWT_SECRET_NAME)
+
         # Decode the JWT token
-        decoded_token = jwt.decode(token, "abc", algorithms=["HS256"])
-        effect = "Allow"
+        decoded_token = jwt.decode(token, JWT_SECRET, algorithms=["HS256"])
+        effect = "allow"
         email = decoded_token.get("email")
     except:
-        effect = "Deny"
+        effect = "deny"
         email = None
 
     context = {"email": email}

@@ -9,7 +9,7 @@ class SigninConfig:
             path="./functions/auth",
             description="Signin function",
             directory="signin",
-            layers=[services.layers.sm_utils_layer, services.layers.jwt_layer],
+            layers=[services.layers.sm_utils_layer, services.layers.pyjwt_layer],
             environment={
                 "USERS_TABLE_NAME": services.dynamo_db.users_table.table_name,
                 "KMS_KEY_ID": services.kms.signup_key.key_id,

@@ -1,7 +1,7 @@
 import json
 import os
-import boto3
 
+import boto3
 
 
 def lambda_handler(event, context):
@@ -9,15 +9,13 @@ def lambda_handler(event, context):
 
     sender_id = event["requestContext"]["connectionId"]
 
-
     # Use the actual table name
     dynamodb = boto3.resource("dynamodb")
 
     CONNECTIONS_TABLE_NAME = os.environ.get("CONNECTIONS_TABLE_NAME")
     connections_table = dynamodb.Table(CONNECTIONS_TABLE_NAME)
-    
-    connections = connections_table.scan()["Items"]
 
+    connections = connections_table.scan()["Items"]
 
     POST_TO_CONNECTION_URL = os.environ.get("POST_TO_CONNECTION_URL")
 
@@ -37,7 +35,3 @@ def lambda_handler(event, context):
                 print(f"Error: {e}")
 
     return {"statusCode": 200}
-
-
-
-    
