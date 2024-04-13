@@ -15,3 +15,4 @@ def lambda_handler(event, context):
     connections_table.put_item(Item={"PK": connection_id})
 
     return {"statusCode": 200}
+#
