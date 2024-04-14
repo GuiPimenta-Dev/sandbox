@@ -10,7 +10,7 @@ def lambda_handler(event, context):
     # Send the payload to the WebSocket
     api_gateway_management_client.post_to_connection(
         ConnectionId=connection_id,
-        Data=json.dumps({"sender_id": connection_id}).encode("utf-8")
+        Data=json.dumps({"connection_id": connection_id}).encode("utf-8")
     )
 
     return {"statusCode": 200}
