@@ -29,6 +29,7 @@ class LambdaStack(Stack):
         SignUpConfig(self.services)
 
         # Chat
+        ConnectConfig(self.services, context)
         SendMessageConfig(self.services, context)
         DisconnectConfig(self.services)
-        ConnectConfig(self.services)
+
