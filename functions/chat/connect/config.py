@@ -1,4 +1,5 @@
 from infra.services import Services
+from aws_cdk import aws_iam as iam
 
 
 class ConnectConfig:
@@ -12,6 +13,13 @@ class ConnectConfig:
             environment={
                 "POST_TO_CONNECTION_URL": context.resources["post_to_connection_url"]
             },
+        )
+
+        send_connection_id_function.add_to_role_policy(
+            iam.PolicyStatement(
+                actions=["execute-api:ManageConnections"],
+                resources=["*"],
+            )
         )
 
         connect_function = services.aws_lambda.create_function(
