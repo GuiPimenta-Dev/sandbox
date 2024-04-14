@@ -49,15 +49,15 @@
         "coverage": 85,
         "base_url": "",
         "dev": {
-            "post_to_connection_url": "https://bmmmojxc5j.execute-api.us-east-2.amazonaws.com/dev",
+            "post_to_connection_url": "https://2clnav84i7.execute-api.us-east-2.amazonaws.com/dev",
             "arns": {}
         },
         "staging": {
-            "post_to_connection_url": "https://bmmmojxc5j.execute-api.us-east-2.amazonaws.com/staging",
+            "post_to_connection_url": "https://2clnav84i7.execute-api.us-east-2.amazonaws.com/staging",
             "arns": {}
         },
         "prod": {
-            "post_to_connection_url": "https://bmmmojxc5j.execute-api.us-east-2.amazonaws.com/prod",
+            "post_to_connection_url": "https://2clnav84i7.execute-api.us-east-2.amazonaws.com/prod",
             "arns": {}
         },
         "functions": [
