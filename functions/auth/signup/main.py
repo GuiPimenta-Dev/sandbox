@@ -52,4 +52,3 @@ def lambda_handler(event, context):
 
     # Return a successful response with the newly created user ID.
     return {"statusCode": 201}
-

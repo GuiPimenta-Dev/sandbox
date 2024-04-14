@@ -7,7 +7,6 @@ from lambda_forge import Steps, context
 from infra.stages.deploy import DeployStage
 
 
-
 @context(stage="Dev", resources="dev")
 class DevStack(cdk.Stack):
     def __init__(self, scope: Construct, context, **kwargs) -> None:
@@ -38,5 +37,6 @@ class DevStack(cdk.Stack):
         generate_docs = steps.generate_docs()
 
         pipeline.add_stage(DeployStage(self, context), pre=[generate_docs])
+
 
 #

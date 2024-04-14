@@ -10,16 +10,10 @@ def invoke_second_lambda(connection_id):
     TARGET_FUNCTION_ARN = os.environ.get("TARGET_FUNCTION_ARN")
 
     # Define the payload to pass to the second Lambda function
-    payload = {
-        "connection_id": connection_id
-    }
+    payload = {"connection_id": connection_id}
 
     # Invoke the second Lambda function asynchronously
-    lambda_client.invoke(
-        FunctionName=TARGET_FUNCTION_ARN,
-        InvocationType="Event",  
-        Payload=json.dumps(payload)
-    )
+    lambda_client.invoke(FunctionName=TARGET_FUNCTION_ARN, InvocationType="Event", Payload=json.dumps(payload))
 
 
 def lambda_handler(event, context):
@@ -35,5 +29,3 @@ def lambda_handler(event, context):
     invoke_second_lambda(connection_id)
 
     return {"statusCode": 200}
-
-

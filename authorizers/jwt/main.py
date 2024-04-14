@@ -2,6 +2,7 @@ import os
 import jwt
 import sm_utils
 
+
 def lambda_handler(event, context):
 
     # Extract the JWT token from the event

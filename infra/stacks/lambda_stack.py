@@ -32,4 +32,3 @@ class LambdaStack(Stack):
         ConnectConfig(self.services, context)
         SendMessageConfig(self.services, context)
         DisconnectConfig(self.services)
-

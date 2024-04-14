@@ -14,8 +14,8 @@ class APIGateway(IAPIGateway):
         self.default_authorizer = None
         self.api = apigateway.RestApi(
             scope,
-            id=f"{self.context.stage}-{self.context.name}-API",
-            description=f"{self.context.stage} {self.context.name} API",
+            id=f"{self.context.stage}-{self.context.name}-REST",
+            description=f"{self.context.stage} {self.context.name} Rest API",
             deploy_options={"stage_name": self.context.stage.lower()},
             endpoint_types=[apigateway.EndpointType.REGIONAL],
             binary_media_types=["multipart/form-data"],

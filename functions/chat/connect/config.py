@@ -10,9 +10,7 @@ class ConnectConfig:
             path="./functions/chat",
             description="Return the connection id on connect",
             directory="send_connection_id",
-            environment={
-                "POST_TO_CONNECTION_URL": context.resources["post_to_connection_url"]
-            },
+            environment={"POST_TO_CONNECTION_URL": context.resources["post_to_connection_url"]},
         )
 
         send_connection_id_function.add_to_role_policy(
@@ -29,7 +27,7 @@ class ConnectConfig:
             directory="connect",
             environment={
                 "CONNECTIONS_TABLE_NAME": services.dynamo_db.connections_table.table_name,
-                "TARGET_FUNCTION_ARN": send_connection_id_function.function_arn 
+                "TARGET_FUNCTION_ARN": send_connection_id_function.function_arn,
             },
         )
 
