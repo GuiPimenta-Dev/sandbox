@@ -42,6 +42,6 @@ class DevStack(cdk.Stack):
                 "favicon": "https://docs.lambda-forge.com/images/favicon.png",
             }
         ]
-        generate_docs = steps.generate_docs(wikis=wikis)
+        generate_docs = steps.generate_docs(wikis=wikis, api=False)
 
         pipeline.add_stage(DeployStage(self, context), pre=[generate_docs])
