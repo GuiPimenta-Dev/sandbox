@@ -36,7 +36,7 @@ class DevStack(cdk.Stack):
         steps = Steps(self, context, source)
 
         wikis = [{
-            "title": "Dev",
+            "title": "Wiki",
             "file_path": "wiki.md",
             "favicon": "https://docs.lambda-forge.com/images/favicon.png",
         }]
