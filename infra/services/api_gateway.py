@@ -73,7 +73,7 @@ class APIGateway(IAPIGateway):
             resource = resource.get_resource(subresource) or resource.add_resource(subresource)
         return resource
 
-    def create_docs(self, authorizer, endpoint="/docs", redoc=False, enabled=True):
+    def create_docs(self, authorizer, endpoint="/docs", artifact="swagger", enabled=True):
         if not enabled:
             return
 
@@ -106,13 +106,11 @@ class APIGateway(IAPIGateway):
 
         authorizer = self.authorizers[authorizer] if authorizer else None
 
-        doc_provider = "redoc" if redoc else "swagger"
-
         docs_resource.add_method(
             "GET",
             apigateway.AwsIntegration(
                 service="s3",
-                path=f"{self.context.bucket}/{self.context.name}/{self.context.stage.lower()}-{doc_provider}.html",
+                path=f"{self.context.bucket}/{self.context.name}/{self.context.stage.lower()}-{artifact}.html",
                 integration_http_method="GET",
                 options=apigateway.IntegrationOptions(
                     credentials_role=s3_integration_role,
