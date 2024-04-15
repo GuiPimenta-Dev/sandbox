@@ -24,5 +24,4 @@ def lambda_handler(event, context):
         Data=json.dumps({"message": json.loads(event["body"])["message"]}),
     )
 
-
     return {"statusCode": 200}
