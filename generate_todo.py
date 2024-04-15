@@ -19,14 +19,17 @@ def check_for_keywords_with_comments(file_path):
     with open(file_path, 'r') as file:
         lines = file.readlines()
         keyword = None
+        comment_lines = []
         for line in lines:
             if keyword is not None:
                 if line.strip() == '':
-                    keyword = None
+                    if comment_lines:
+                        if keyword not in keywords_with_comments:
+                            keywords_with_comments[keyword] = []
+                        keywords_with_comments[keyword].append(' '.join(comment_lines))
+                        comment_lines = []
                 else:
-                    if keyword not in keywords_with_comments:
-                        keywords_with_comments[keyword] = []
-                    keywords_with_comments[keyword].append(line.strip())
+                    comment_lines.append(line.strip())
             else:
                 for kw in ['help', 'improve', 'waiting', 'todo', 'fixme']:
                     if f'# {kw.upper()}' in line:
