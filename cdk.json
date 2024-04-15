@@ -98,7 +98,7 @@
                 "description": "real time chat"
             },
             {
-                "name": "GroupBroadcast",
+                "name": "SendMessage",
                 "path": "./functions/chat/send_message",
                 "description": "real time chat"
             },
