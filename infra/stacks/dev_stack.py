@@ -35,13 +35,13 @@ class DevStack(cdk.Stack):
 
         steps = Steps(self, context, source)
 
-        wikis = [{
-            "title": "Wiki",
-            "file_path": "wiki.md",
-            "favicon": "https://docs.lambda-forge.com/images/favicon.png",
-        }]
+        wikis = [
+            {
+                "title": "Wiki",
+                "file_path": "wiki.md",
+                "favicon": "https://docs.lambda-forge.com/images/favicon.png",
+            }
+        ]
         generate_docs = steps.generate_docs(wikis=wikis)
 
         pipeline.add_stage(DeployStage(self, context), pre=[generate_docs])
-
-

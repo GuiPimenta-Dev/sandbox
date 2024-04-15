@@ -20,7 +20,7 @@ class Websockets:
             route_selection_expression="$request.body.action",
         )
 
-#
+        #
         self.stage = WsStage(
             scope=self.scope,
             id=f"{self.context.stage}-{self.name}-WSS-Stage",
