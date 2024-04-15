@@ -38,6 +38,14 @@ def lambda_handler(event, context):
     # that i am not aware of
     # i need to do
 
+    # TODO: something really long
+    # that i am not aware of
+    # i need to do
+
+    # FIXME: something really long
+    # that i am not aware of
+    # i need to do
+
     # Parse the request body to get user credentials.
     body = json.loads(event["body"])
     email = body["email"]

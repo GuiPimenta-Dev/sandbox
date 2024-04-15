@@ -1,76 +1,118 @@
+import json
 import os
 import re
 
-# Define the array of files
-files_array = [
-    {"name": "JwtAuthorizer", "path": "./authorizers/jwt", "description": "A jwt authorizer for private lambda functions"},
-    {"name": "Hello", "path": "./functions/hello", "description": "protected function", "method": "GET", "endpoint": "/users"},
-    {"name": "Signin", "path": "./functions/auth/signin", "description": "Signin function", "method": "POST", "endpoint": "/signin"},
-    {"name": "CreateUser", "path": "./functions/auth/signup", "description": "Create a user with name and age on Dynamo DB", "method": "POST", "endpoint": "/signup"},
-    {"name": "SendConnectionId", "path": "./functions/chat/send_connection_id", "description": "Return the connection id on connect"},
-    {"name": "Connect", "path": "./functions/chat/connect", "description": "real time chat"},
-    {"name": "SendMessage", "path": "./functions/chat/send_message", "description": "real time chat"},
-    {"name": "Disconnect", "path": "./functions/chat/disconnect", "description": "real time chat"}
-]
 
 # Define the function to check for keywords and capture subsequent comments until a blank line
 def check_for_keywords_with_comments(file_path):
     keywords_with_comments = {}
-    with open(file_path, 'r') as file:
+    with open(file_path, "r") as file:
         lines = file.readlines()
         keyword = None
         comment_lines = []
         for line in lines:
+            # Check if we're currently capturing comments for a keyword
             if keyword is not None:
-                if line.strip() == '':
+                if line.strip() == "":
+                    # If we encounter a blank line, save the comments we've collected so far
                     if comment_lines:
                         if keyword not in keywords_with_comments:
                             keywords_with_comments[keyword] = []
-                        keywords_with_comments[keyword].append(' '.join(comment_lines))
+                        keywords_with_comments[keyword].append(" ".join(comment_lines))
                         comment_lines = []
+                    keyword = None  # Reset the keyword after capturing comments
                 else:
-                    comment_lines.append(line.strip())
+                    # Remove leading '#' and whitespace from the comment
+                    cleaned_line = line.strip().lstrip("#").strip()
+                    comment_lines.append(cleaned_line)
             else:
-                for kw in ['help', 'improve', 'waiting', 'todo', 'fixme']:
-                    if f'# {kw.upper()}' in line:
+                # Look for a keyword in the current line
+                for kw in ["help", "improve", "waiting", "todo", "fixme"]:
+                    if f"# {kw.upper()}" in line or f"# {kw}" in line:
                         keyword = kw
+                        # If the keyword is found, check if there's a comment on the same line following it
+                        comment_part = line.split(f"# {kw.upper()}")[-1].strip()
+                        if not comment_part:  # If no comment on the same line, continue to the next line
+                            comment_part = line.split(f"# {kw}")[-1].strip()
+                        if comment_part:  # If there's a comment part on the same line, add it
+                            comment_lines.append(comment_part)
+                        break  # Break after finding the first keyword to not overwrite it if there are multiple
+
     return keywords_with_comments
 
-# Define the function to generate HTML with different background colors for each keyword
+
 def generate_html(keywords_with_comments):
-    html = '<html><head><title>TODO Log</title></head><body>'
-    for keyword, comments in keywords_with_comments.items():
-        if keyword == 'help':
-            color = '#FFD700'  # Gold
-        elif keyword == 'improve':
-            color = '#90EE90'  # Light Green
-        elif keyword == 'waiting':
-            color = '#87CEEB'  # Sky Blue
-        elif keyword == 'todo':
-            color = '#FFA07A'  # Light Salmon
-        elif keyword == 'fixme':
-            color = '#FF6347'  # Tomato
-        else:
-            color = '#FFFFFF'  # White (default)
-        for comment in comments:
-            html += f'<div style="background-color: {color};">{keyword.upper()}: {comment}</div>'
-    html += '</body></html>'
+    html = """
+    <html>
+    <head>
+        <title>To Do</title>
+        <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+        <link rel="icon" type="image/png" href="https://www.flaticon.com/free-icon/to-do-list_2387635?term=todo&page=1&position=1&origin=search&related_id=2387635">
+        <style>
+            body {
+                font-family: 'Roboto', sans-serif;
+                margin: 20px;
+            }
+            .comment {
+                border: 1px solid #ddd;
+                margin: 10px 0px;
+                padding: 10px;
+                border-radius: 5px;
+                color: #333; /* Default font color */
+            }
+            .file-path {
+                margin-top: 20px;
+                font-weight: bold;
+            }
+        </style>
+    </head>
+    <body>
+    """
+    for file_path, keywords in keywords_with_comments.items():
+        clean_file_path = file_path.lstrip("./")  # Adjust file path presentation
+        html += f'<div class="file-path">{clean_file_path}</div>'
+        for keyword, comments in keywords.items():
+            bg_color, font_color = (
+                "#FFFFFF",
+                "#000000",
+            )  # Default colors
+
+            if keyword == "help":
+                bg_color, font_color = "#FFD700", "#000000"
+            elif keyword == "improve":
+                bg_color, font_color = "#90EE90", "#000000"
+            elif keyword == "waiting":
+                bg_color, font_color = "#87CEEB", "#000000"
+            elif keyword == "todo":
+                bg_color, font_color = "#FFA07A", "#000000"
+            elif keyword == "fixme":
+                bg_color, font_color = "#FF6347", "#000000"
+
+            for comment in comments:
+                # Ensure only one colon is present after the keyword
+                formatted_comment = f"<strong>{keyword.upper()}</strong>: {comment.replace(':','')}"
+                html += f'<div class="comment" style="background-color: {bg_color}; color: {font_color};">{formatted_comment}</div>'
+    html += "</body></html>"
     return html
+
 
 # Define the function to iterate through files and generate HTML with keywords and comments
 def iterate_files_and_generate_html(files):
     all_keywords_with_comments = {}
     for file_data in files:
-        file_path = os.path.join(file_data['path'], f"main.py")
+        file_path = os.path.join(file_data["path"], f"main.py")
         if os.path.exists(file_path):
             keywords_with_comments = check_for_keywords_with_comments(file_path)
-            for keyword, comments in keywords_with_comments.items():
-                if keyword not in all_keywords_with_comments:
-                    all_keywords_with_comments[keyword] = []
-                all_keywords_with_comments[keyword].extend(comments)
+            if keywords_with_comments:
+                all_keywords_with_comments[file_path] = keywords_with_comments
     html = generate_html(all_keywords_with_comments)
-    with open('todo_log.html', 'w') as html_file:
+    with open("todo.html", "w") as html_file:
         html_file.write(html)
 
+
 # Call the function to iterate through files and generate HTML with keywords and comments
-iterate_files_and_generate_html(files_array)
+with open("cdk.json", "r") as json_file:
+    context = json.load(json_file)["context"]
+    functions = context["functions"]
+
+iterate_files_and_generate_html(functions)
