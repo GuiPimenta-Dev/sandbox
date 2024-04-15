@@ -34,6 +34,10 @@ def lambda_handler(event, context):
 
     JWT_SECRET = sm_utils.get_secret(JWT_SECRET_NAME)
 
+    # FIXME: something really long
+    # that i am not aware of
+    # i need to do
+
     # Parse the request body to get user credentials.
     body = json.loads(event["body"])
     email = body["email"]
