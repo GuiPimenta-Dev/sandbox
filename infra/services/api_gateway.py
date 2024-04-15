@@ -98,6 +98,7 @@ class APIGateway(IAPIGateway):
                 ],
             )
         )
+        #
 
         docs_resource = self.create_resource(endpoint)
 
