@@ -3,11 +3,332 @@
   <head>
     <meta charset="utf-8"/>
     <title id="head-title">report.html</title>
-      <link href="assets/style.css" rel="stylesheet" type="text/css"/>
+      <style type="text/css">body {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  /* do not increase min-width as some may use split screens */
+  min-width: 800px;
+  color: #999;
+}
+
+h1 {
+  font-size: 24px;
+  color: black;
+}
+
+h2 {
+  font-size: 16px;
+  color: black;
+}
+
+p {
+  color: black;
+}
+
+a {
+  color: #999;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+/******************************
+ * SUMMARY INFORMATION
+ ******************************/
+#environment td {
+  padding: 5px;
+  border: 1px solid #e6e6e6;
+  vertical-align: top;
+}
+#environment tr:nth-child(odd) {
+  background-color: #f6f6f6;
+}
+#environment ul {
+  margin: 0;
+  padding: 0 20px;
+}
+
+/******************************
+ * TEST RESULT COLORS
+ ******************************/
+span.passed,
+.passed .col-result {
+  color: green;
+}
+
+span.skipped,
+span.xfailed,
+span.rerun,
+.skipped .col-result,
+.xfailed .col-result,
+.rerun .col-result {
+  color: orange;
+}
+
+span.error,
+span.failed,
+span.xpassed,
+.error .col-result,
+.failed .col-result,
+.xpassed .col-result {
+  color: red;
+}
+
+.col-links__extra {
+  margin-right: 3px;
+}
+
+/******************************
+ * RESULTS TABLE
+ *
+ * 1. Table Layout
+ * 2. Extra
+ * 3. Sorting items
+ *
+ ******************************/
+/*------------------
+ * 1. Table Layout
+ *------------------*/
+#results-table {
+  border: 1px solid #e6e6e6;
+  color: #999;
+  font-size: 12px;
+  width: 100%;
+}
+#results-table th,
+#results-table td {
+  padding: 5px;
+  border: 1px solid #e6e6e6;
+  text-align: left;
+}
+#results-table th {
+  font-weight: bold;
+}
+
+/*------------------
+ * 2. Extra
+ *------------------*/
+.logwrapper {
+  max-height: 230px;
+  overflow-y: scroll;
+  background-color: #e6e6e6;
+}
+.logwrapper.expanded {
+  max-height: none;
+}
+.logwrapper.expanded .logexpander:after {
+  content: "collapse [-]";
+}
+.logwrapper .logexpander {
+  z-index: 1;
+  position: sticky;
+  top: 10px;
+  width: max-content;
+  border: 1px solid;
+  border-radius: 3px;
+  padding: 5px 7px;
+  margin: 10px 0 10px calc(100% - 80px);
+  cursor: pointer;
+  background-color: #e6e6e6;
+}
+.logwrapper .logexpander:after {
+  content: "expand [+]";
+}
+.logwrapper .logexpander:hover {
+  color: #000;
+  border-color: #000;
+}
+.logwrapper .log {
+  min-height: 40px;
+  position: relative;
+  top: -50px;
+  height: calc(100% + 50px);
+  border: 1px solid #e6e6e6;
+  color: black;
+  display: block;
+  font-family: "Courier New", Courier, monospace;
+  padding: 5px;
+  padding-right: 80px;
+  white-space: pre-wrap;
+}
+
+div.media {
+  border: 1px solid #e6e6e6;
+  float: right;
+  height: 240px;
+  margin: 0 5px;
+  overflow: hidden;
+  width: 320px;
+}
+
+.media-container {
+  display: grid;
+  grid-template-columns: 25px auto 25px;
+  align-items: center;
+  flex: 1 1;
+  overflow: hidden;
+  height: 200px;
+}
+
+.media-container--fullscreen {
+  grid-template-columns: 0px auto 0px;
+}
+
+.media-container__nav--right,
+.media-container__nav--left {
+  text-align: center;
+  cursor: pointer;
+}
+
+.media-container__viewport {
+  cursor: pointer;
+  text-align: center;
+  height: inherit;
+}
+.media-container__viewport img,
+.media-container__viewport video {
+  object-fit: cover;
+  width: 100%;
+  max-height: 100%;
+}
+
+.media__name,
+.media__counter {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex: 0 0 25px;
+  align-items: center;
+}
+
+.collapsible td:not(.col-links) {
+  cursor: pointer;
+}
+.collapsible td:not(.col-links):hover::after {
+  color: #bbb;
+  font-style: italic;
+  cursor: pointer;
+}
+
+.col-result {
+  width: 130px;
+}
+.col-result:hover::after {
+  content: " (hide details)";
+}
+
+.col-result.collapsed:hover::after {
+  content: " (show details)";
+}
+
+#environment-header h2:hover::after {
+  content: " (hide details)";
+  color: #bbb;
+  font-style: italic;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+#environment-header.collapsed h2:hover::after {
+  content: " (show details)";
+  color: #bbb;
+  font-style: italic;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+/*------------------
+ * 3. Sorting items
+ *------------------*/
+.sortable {
+  cursor: pointer;
+}
+.sortable.desc:after {
+  content: " ";
+  position: relative;
+  left: 5px;
+  bottom: -12.5px;
+  border: 10px solid #4caf50;
+  border-bottom: 0;
+  border-left-color: transparent;
+  border-right-color: transparent;
+}
+.sortable.asc:after {
+  content: " ";
+  position: relative;
+  left: 5px;
+  bottom: 12.5px;
+  border: 10px solid #4caf50;
+  border-top: 0;
+  border-left-color: transparent;
+  border-right-color: transparent;
+}
+
+.hidden, .summary__reload__button.hidden {
+  display: none;
+}
+
+.summary__data {
+  flex: 0 0 550px;
+}
+.summary__reload {
+  flex: 1 1;
+  display: flex;
+  justify-content: center;
+}
+.summary__reload__button {
+  flex: 0 0 300px;
+  display: flex;
+  color: white;
+  font-weight: bold;
+  background-color: #4caf50;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.summary__reload__button:hover {
+  background-color: #46a049;
+}
+.summary__spacer {
+  flex: 0 0 550px;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+}
+
+.filters,
+.collapse {
+  display: flex;
+  align-items: center;
+}
+.filters button,
+.collapse button {
+  color: #999;
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-decoration: underline;
+}
+.filters button:hover,
+.collapse button:hover {
+  color: #ccc;
+}
+
+.filter__label {
+  margin-right: 10px;
+}
+
+      </style>
+    
   </head>
   <body>
     <h1 id="title">report.html</h1>
-    <p>Report generated on 16-Apr-2024 at 17:47:09 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a>
+    <p>Report generated on 16-Apr-2024 at 18:50:22 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a>
         v4.1.1</p>
     <div id="environment-header">
       <h2>Environment</h2>
@@ -61,7 +382,7 @@
         <h2>Summary</h2>
         <div class="additional-summary prefix">
         </div>
-        <p class="run-count">4 tests took 49 ms.</p>
+        <p class="run-count">7 tests took 233 ms.</p>
         <p class="filter">(Un)check the boxes to filter the results.</p>
         <div class="summary__reload">
           <div class="summary__reload__button hidden" onclick="location.reload()">
@@ -72,7 +393,7 @@
         <div class="controls">
           <div class="filters">
             <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="failed" />
-            <span class="failed">4 Failed,</span>
+            <span class="failed">7 Failed,</span>
             <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="passed" disabled/>
             <span class="passed">0 Passed,</span>
             <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="skipped" disabled/>
@@ -108,7 +429,7 @@
     </table>
   </body>
   <footer>
-    <div id="data-container" data-jsonblob="{&#34;environment&#34;: {&#34;Python&#34;: &#34;3.9.7&#34;, &#34;Platform&#34;: &#34;macOS-13.5.1-arm64-arm-64bit&#34;, &#34;Packages&#34;: {&#34;pytest&#34;: &#34;8.1.1&#34;, &#34;pluggy&#34;: &#34;1.4.0&#34;}, &#34;Plugins&#34;: {&#34;cov&#34;: &#34;2.12.1&#34;, &#34;html&#34;: &#34;4.1.1&#34;, &#34;anyio&#34;: &#34;4.3.0&#34;, &#34;metadata&#34;: &#34;3.1.1&#34;, &#34;typeguard&#34;: &#34;2.13.3&#34;, &#34;dotenv&#34;: &#34;0.5.2&#34;, &#34;timeout&#34;: &#34;1.4.2&#34;}}, &#34;tests&#34;: {&#34;functions/auth/signin/unit.py::test_lambda_handler&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;functions/auth/signin/unit.py::test_lambda_handler&#34;, &#34;duration&#34;: &#34;42 ms&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;functions/auth/signin/unit.py::test_lambda_handler&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;42 ms&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;def test_lambda_handler():\n    \n&amp;gt;       response = lambda_handler(None, None)\n\nfunctions/auth/signin/unit.py:8: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\nfunctions/auth/signin/main.py:35: in lambda_handler\n    JWT_SECRET = sm_utils.get_secret(JWT_SECRET_NAME)\nlayers/sm_utils/sm_utils.py:12: in get_secret\n    response = sm_client.get_secret_value(SecretId=secret_name)\n../../../.pyenv/versions/3.9.7/lib/python3.9/site-packages/botocore/client.py:530: in _api_call\n    return self._make_api_call(operation_name, kwargs)\n../../../.pyenv/versions/3.9.7/lib/python3.9/site-packages/botocore/client.py:923: in _make_api_call\n    request_dict = self._convert_to_request_dict(\n../../../.pyenv/versions/3.9.7/lib/python3.9/site-packages/botocore/client.py:991: in _convert_to_request_dict\n    request_dict = self._serializer.serialize_to_request(\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n\nself = &amp;lt;botocore.validate.ParamValidationDecorator object at 0x1288d49a0&amp;gt;, parameters = {&amp;#x27;SecretId&amp;#x27;: None}\noperation_model = OperationModel(name=GetSecretValue)\n\n    def serialize_to_request(self, parameters, operation_model):\n        input_shape = operation_model.input_shape\n        if input_shape is not None:\n            report = self._param_validator.validate(\n                parameters, operation_model.input_shape\n            )\n            if report.has_errors():\n&amp;gt;               raise ParamValidationError(report=report.generate_report())\nE               botocore.exceptions.ParamValidationError: Parameter validation failed:\nE               Invalid type for parameter SecretId, value: None, type: &amp;lt;class &amp;#x27;NoneType&amp;#x27;&amp;gt;, valid types: &amp;lt;class &amp;#x27;str&amp;#x27;&amp;gt;\n\n../../../.pyenv/versions/3.9.7/lib/python3.9/site-packages/botocore/validate.py:381: ParamValidationError\n&#34;}], &#34;functions/auth/signup/unit.py::test_lambda_handler&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Error&#34;, &#34;testId&#34;: &#34;functions/auth/signup/unit.py::test_lambda_handler::setup&#34;, &#34;duration&#34;: &#34;0 ms&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Error&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;functions/auth/signup/unit.py::test_lambda_handler::setup&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;0 ms&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;file /Users/guialves/personal_projects/lforge/lambda-forge-sandbox/functions/auth/signup/unit.py, line 7\n  def test_lambda_handler(users_table):\nE       fixture &amp;#x27;users_table&amp;#x27; not found\n&amp;gt;       available fixtures: anyio_backend, anyio_backend_name, anyio_backend_options, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, cov, doctest_namespace, extra, extras, include_metadata_in_junit_xml, metadata, monkeypatch, no_cover, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory\n&amp;gt;       use &amp;#x27;pytest --fixtures [testpath]&amp;#x27; for help on them.\n\n/Users/guialves/personal_projects/lforge/lambda-forge-sandbox/functions/auth/signup/unit.py:7\n&#34;}], &#34;functions/chat/connect/unit.py::test_lambda_handler&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;functions/chat/connect/unit.py::test_lambda_handler&#34;, &#34;duration&#34;: &#34;1 ms&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;functions/chat/connect/unit.py::test_lambda_handler&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;1 ms&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;def test_lambda_handler():\n    \n&amp;gt;       response = lambda_handler(None, None)\n\nfunctions/chat/connect/unit.py:8: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n\nevent = None, context = None\n\n    def lambda_handler(event, context):\n    \n        # Retrieve the connection ID from the request context\n&amp;gt;       connection_id = event[&amp;quot;requestContext&amp;quot;][&amp;quot;connectionId&amp;quot;]\nE       TypeError: &amp;#x27;NoneType&amp;#x27; object is not subscriptable\n\nfunctions/chat/connect/main.py:10: TypeError\n&#34;}], &#34;functions/chat/send_message/unit.py::test_lambda_handler&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;functions/chat/send_message/unit.py::test_lambda_handler&#34;, &#34;duration&#34;: &#34;6 ms&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;functions/chat/send_message/unit.py::test_lambda_handler&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;6 ms&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;def test_lambda_handler():\n    \n&amp;gt;       response = lambda_handler(None, None)\n\nfunctions/chat/send_message/unit.py:8: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n\nevent = None, context = None\n\n    def lambda_handler(event, context):\n        # Retrieve the URL for posting messages to connected clients from the environment variables\n        POST_TO_CONNECTION_URL = os.environ.get(&amp;quot;POST_TO_CONNECTION_URL&amp;quot;)\n    \n        # Create a client for the API Gateway Management API, specifying the endpoint URL\n        # This client is used to post messages to the connections maintained by API Gateway\n        apigtw_management = boto3.client(\n            &amp;quot;apigatewaymanagementapi&amp;quot;,\n            endpoint_url=POST_TO_CONNECTION_URL,\n        )\n    \n        # Retrieve the connection ID of the sender from the Lambda event\n&amp;gt;       sender_id = event[&amp;quot;requestContext&amp;quot;][&amp;quot;connectionId&amp;quot;]\nE       TypeError: &amp;#x27;NoneType&amp;#x27; object is not subscriptable\n\nfunctions/chat/send_message/main.py:18: TypeError\n&#34;}], &#34;functions/hello/unit.py::test_lambda_handler&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;functions/hello/unit.py::test_lambda_handler&#34;, &#34;duration&#34;: &#34;0 ms&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;functions/hello/unit.py::test_lambda_handler&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;0 ms&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;def test_lambda_handler():\n    \n&amp;gt;       response = lambda_handler(None, None)\n\nfunctions/hello/unit.py:8: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n\nevent = None, context = None\n\n    def lambda_handler(event, context):\n    \n&amp;gt;       email = event[&amp;quot;requestContext&amp;quot;][&amp;quot;authorizer&amp;quot;][&amp;quot;email&amp;quot;]\nE       TypeError: &amp;#x27;NoneType&amp;#x27; object is not subscriptable\n\nfunctions/hello/main.py:17: TypeError\n&#34;}]}, &#34;renderCollapsed&#34;: [&#34;all&#34;], &#34;initialSort&#34;: &#34;result&#34;, &#34;title&#34;: &#34;report.html&#34;}"></div>
+    <div id="data-container" data-jsonblob="{&#34;environment&#34;: {&#34;Python&#34;: &#34;3.9.7&#34;, &#34;Platform&#34;: &#34;macOS-13.5.1-arm64-arm-64bit&#34;, &#34;Packages&#34;: {&#34;pytest&#34;: &#34;8.1.1&#34;, &#34;pluggy&#34;: &#34;1.4.0&#34;}, &#34;Plugins&#34;: {&#34;cov&#34;: &#34;2.12.1&#34;, &#34;html&#34;: &#34;4.1.1&#34;, &#34;anyio&#34;: &#34;4.3.0&#34;, &#34;metadata&#34;: &#34;3.1.1&#34;, &#34;typeguard&#34;: &#34;2.13.3&#34;, &#34;dotenv&#34;: &#34;0.5.2&#34;, &#34;timeout&#34;: &#34;1.4.2&#34;}}, &#34;tests&#34;: {&#34;functions/auth/signin/integration.py::test_signin_status_code_is_200&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;functions/auth/signin/integration.py::test_signin_status_code_is_200&#34;, &#34;duration&#34;: &#34;1 ms&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;functions/auth/signin/integration.py::test_signin_status_code_is_200&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;1 ms&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;@pytest.mark.integration(method=&amp;quot;POST&amp;quot;, endpoint=&amp;quot;/users&amp;quot;)\n    def test_signin_status_code_is_200():\n    \n&amp;gt;       response = requests.post(url=f&amp;quot;{BASE_URL}/users&amp;quot;)\n\nfunctions/auth/signin/integration.py:9: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n../../../.pyenv/versions/3.9.7/lib/python3.9/site-packages/requests/api.py:115: in post\n    return request(&amp;quot;post&amp;quot;, url, data=data, json=json, **kwargs)\n../../../.pyenv/versions/3.9.7/lib/python3.9/site-packages/requests/api.py:59: in request\n    return session.request(method=method, url=url, **kwargs)\n../../../.pyenv/versions/3.9.7/lib/python3.9/site-packages/requests/sessions.py:573: in request\n    prep = self.prepare_request(req)\n../../../.pyenv/versions/3.9.7/lib/python3.9/site-packages/requests/sessions.py:484: in prepare_request\n    p.prepare(\n../../../.pyenv/versions/3.9.7/lib/python3.9/site-packages/requests/models.py:368: in prepare\n    self.prepare_url(url, params)\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n\nself = &amp;lt;PreparedRequest [POST]&amp;gt;, url = &amp;#x27;/users&amp;#x27;, params = OrderedDict()\n\n    def prepare_url(self, url, params):\n        &amp;quot;&amp;quot;&amp;quot;Prepares the given HTTP URL.&amp;quot;&amp;quot;&amp;quot;\n        #: Accept objects that have string representations.\n        #: We&amp;#x27;re unable to blindly call unicode/str functions\n        #: as this will include the bytestring indicator (b&amp;#x27;&amp;#x27;)\n        #: on python 3.x.\n        #: https://github.com/psf/requests/pull/2238\n        if isinstance(url, bytes):\n            url = url.decode(&amp;quot;utf8&amp;quot;)\n        else:\n            url = str(url)\n    \n        # Remove leading whitespaces from url\n        url = url.lstrip()\n    \n        # Don&amp;#x27;t do any URL preparation for non-HTTP schemes like `mailto`,\n        # `data` etc to work around exceptions from `url_parse`, which\n        # handles RFC 3986 only.\n        if &amp;quot;:&amp;quot; in url and not url.lower().startswith(&amp;quot;http&amp;quot;):\n            self.url = url\n            return\n    \n        # Support for unicode domain names and paths.\n        try:\n            scheme, auth, host, port, path, query, fragment = parse_url(url)\n        except LocationParseError as e:\n            raise InvalidURL(*e.args)\n    \n        if not scheme:\n&amp;gt;           raise MissingSchema(\n                f&amp;quot;Invalid URL {url!r}: No scheme supplied. &amp;quot;\n                f&amp;quot;Perhaps you meant http://{url}?&amp;quot;\n            )\nE           requests.exceptions.MissingSchema: Invalid URL &amp;#x27;/users&amp;#x27;: No scheme supplied. Perhaps you meant http:///users?\n\n../../../.pyenv/versions/3.9.7/lib/python3.9/site-packages/requests/models.py:439: MissingSchema\n&#34;}], &#34;functions/auth/signin/unit.py::test_lambda_handler&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;functions/auth/signin/unit.py::test_lambda_handler&#34;, &#34;duration&#34;: &#34;215 ms&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;functions/auth/signin/unit.py::test_lambda_handler&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;215 ms&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;def test_lambda_handler():\n    \n&amp;gt;       response = lambda_handler(None, None)\n\nfunctions/auth/signin/unit.py:8: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\nfunctions/auth/signin/main.py:35: in lambda_handler\n    JWT_SECRET = sm_utils.get_secret(JWT_SECRET_NAME)\nlayers/sm_utils/sm_utils.py:12: in get_secret\n    response = sm_client.get_secret_value(SecretId=secret_name)\n../../../.pyenv/versions/3.9.7/lib/python3.9/site-packages/botocore/client.py:530: in _api_call\n    return self._make_api_call(operation_name, kwargs)\n../../../.pyenv/versions/3.9.7/lib/python3.9/site-packages/botocore/client.py:923: in _make_api_call\n    request_dict = self._convert_to_request_dict(\n../../../.pyenv/versions/3.9.7/lib/python3.9/site-packages/botocore/client.py:991: in _convert_to_request_dict\n    request_dict = self._serializer.serialize_to_request(\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n\nself = &amp;lt;botocore.validate.ParamValidationDecorator object at 0x1067ed130&amp;gt;, parameters = {&amp;#x27;SecretId&amp;#x27;: None}\noperation_model = OperationModel(name=GetSecretValue)\n\n    def serialize_to_request(self, parameters, operation_model):\n        input_shape = operation_model.input_shape\n        if input_shape is not None:\n            report = self._param_validator.validate(\n                parameters, operation_model.input_shape\n            )\n            if report.has_errors():\n&amp;gt;               raise ParamValidationError(report=report.generate_report())\nE               botocore.exceptions.ParamValidationError: Parameter validation failed:\nE               Invalid type for parameter SecretId, value: None, type: &amp;lt;class &amp;#x27;NoneType&amp;#x27;&amp;gt;, valid types: &amp;lt;class &amp;#x27;str&amp;#x27;&amp;gt;\n\n../../../.pyenv/versions/3.9.7/lib/python3.9/site-packages/botocore/validate.py:381: ParamValidationError\n&#34;}], &#34;functions/auth/signup/integration.py::test_create_user_status_code_is_200&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;functions/auth/signup/integration.py::test_create_user_status_code_is_200&#34;, &#34;duration&#34;: &#34;1 ms&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;functions/auth/signup/integration.py::test_create_user_status_code_is_200&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;1 ms&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;@pytest.mark.integration(method=&amp;quot;POST&amp;quot;, endpoint=&amp;quot;/users&amp;quot;)\n    def test_create_user_status_code_is_200():\n    \n&amp;gt;       response = requests.post(url=f&amp;quot;{BASE_URL}/users&amp;quot;, json={&amp;quot;name&amp;quot;: &amp;quot;John Doe&amp;quot;, &amp;quot;age&amp;quot;: 30})\n\nfunctions/auth/signup/integration.py:9: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n../../../.pyenv/versions/3.9.7/lib/python3.9/site-packages/requests/api.py:115: in post\n    return request(&amp;quot;post&amp;quot;, url, data=data, json=json, **kwargs)\n../../../.pyenv/versions/3.9.7/lib/python3.9/site-packages/requests/api.py:59: in request\n    return session.request(method=method, url=url, **kwargs)\n../../../.pyenv/versions/3.9.7/lib/python3.9/site-packages/requests/sessions.py:573: in request\n    prep = self.prepare_request(req)\n../../../.pyenv/versions/3.9.7/lib/python3.9/site-packages/requests/sessions.py:484: in prepare_request\n    p.prepare(\n../../../.pyenv/versions/3.9.7/lib/python3.9/site-packages/requests/models.py:368: in prepare\n    self.prepare_url(url, params)\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n\nself = &amp;lt;PreparedRequest [POST]&amp;gt;, url = &amp;#x27;/users&amp;#x27;, params = OrderedDict()\n\n    def prepare_url(self, url, params):\n        &amp;quot;&amp;quot;&amp;quot;Prepares the given HTTP URL.&amp;quot;&amp;quot;&amp;quot;\n        #: Accept objects that have string representations.\n        #: We&amp;#x27;re unable to blindly call unicode/str functions\n        #: as this will include the bytestring indicator (b&amp;#x27;&amp;#x27;)\n        #: on python 3.x.\n        #: https://github.com/psf/requests/pull/2238\n        if isinstance(url, bytes):\n            url = url.decode(&amp;quot;utf8&amp;quot;)\n        else:\n            url = str(url)\n    \n        # Remove leading whitespaces from url\n        url = url.lstrip()\n    \n        # Don&amp;#x27;t do any URL preparation for non-HTTP schemes like `mailto`,\n        # `data` etc to work around exceptions from `url_parse`, which\n        # handles RFC 3986 only.\n        if &amp;quot;:&amp;quot; in url and not url.lower().startswith(&amp;quot;http&amp;quot;):\n            self.url = url\n            return\n    \n        # Support for unicode domain names and paths.\n        try:\n            scheme, auth, host, port, path, query, fragment = parse_url(url)\n        except LocationParseError as e:\n            raise InvalidURL(*e.args)\n    \n        if not scheme:\n&amp;gt;           raise MissingSchema(\n                f&amp;quot;Invalid URL {url!r}: No scheme supplied. &amp;quot;\n                f&amp;quot;Perhaps you meant http://{url}?&amp;quot;\n            )\nE           requests.exceptions.MissingSchema: Invalid URL &amp;#x27;/users&amp;#x27;: No scheme supplied. Perhaps you meant http:///users?\n\n../../../.pyenv/versions/3.9.7/lib/python3.9/site-packages/requests/models.py:439: MissingSchema\n&#34;}], &#34;functions/auth/signup/unit.py::test_lambda_handler&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Error&#34;, &#34;testId&#34;: &#34;functions/auth/signup/unit.py::test_lambda_handler::setup&#34;, &#34;duration&#34;: &#34;0 ms&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Error&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;functions/auth/signup/unit.py::test_lambda_handler::setup&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;0 ms&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;file /Users/guialves/personal_projects/lforge/lambda-forge-sandbox/functions/auth/signup/unit.py, line 7\n  def test_lambda_handler(users_table):\nE       fixture &amp;#x27;users_table&amp;#x27; not found\n&amp;gt;       available fixtures: anyio_backend, anyio_backend_name, anyio_backend_options, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, cov, doctest_namespace, extra, extras, include_metadata_in_junit_xml, metadata, monkeypatch, no_cover, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory\n&amp;gt;       use &amp;#x27;pytest --fixtures [testpath]&amp;#x27; for help on them.\n\n/Users/guialves/personal_projects/lforge/lambda-forge-sandbox/functions/auth/signup/unit.py:7\n&#34;}], &#34;functions/chat/connect/unit.py::test_lambda_handler&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;functions/chat/connect/unit.py::test_lambda_handler&#34;, &#34;duration&#34;: &#34;1 ms&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;functions/chat/connect/unit.py::test_lambda_handler&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;1 ms&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;def test_lambda_handler():\n    \n&amp;gt;       response = lambda_handler(None, None)\n\nfunctions/chat/connect/unit.py:8: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n\nevent = None, context = None\n\n    def lambda_handler(event, context):\n    \n        # Retrieve the connection ID from the request context\n&amp;gt;       connection_id = event[&amp;quot;requestContext&amp;quot;][&amp;quot;connectionId&amp;quot;]\nE       TypeError: &amp;#x27;NoneType&amp;#x27; object is not subscriptable\n\nfunctions/chat/connect/main.py:10: TypeError\n&#34;}], &#34;functions/chat/send_message/unit.py::test_lambda_handler&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;functions/chat/send_message/unit.py::test_lambda_handler&#34;, &#34;duration&#34;: &#34;14 ms&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;functions/chat/send_message/unit.py::test_lambda_handler&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;14 ms&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;def test_lambda_handler():\n    \n&amp;gt;       response = lambda_handler(None, None)\n\nfunctions/chat/send_message/unit.py:8: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n\nevent = None, context = None\n\n    def lambda_handler(event, context):\n        # Retrieve the URL for posting messages to connected clients from the environment variables\n        POST_TO_CONNECTION_URL = os.environ.get(&amp;quot;POST_TO_CONNECTION_URL&amp;quot;)\n    \n        # Create a client for the API Gateway Management API, specifying the endpoint URL\n        # This client is used to post messages to the connections maintained by API Gateway\n        apigtw_management = boto3.client(\n            &amp;quot;apigatewaymanagementapi&amp;quot;,\n            endpoint_url=POST_TO_CONNECTION_URL,\n        )\n    \n        # Retrieve the connection ID of the sender from the Lambda event\n&amp;gt;       sender_id = event[&amp;quot;requestContext&amp;quot;][&amp;quot;connectionId&amp;quot;]\nE       TypeError: &amp;#x27;NoneType&amp;#x27; object is not subscriptable\n\nfunctions/chat/send_message/main.py:18: TypeError\n&#34;}], &#34;functions/hello/integration.py::test_hello_status_code_is_200&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;functions/hello/integration.py::test_hello_status_code_is_200&#34;, &#34;duration&#34;: &#34;1 ms&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;functions/hello/integration.py::test_hello_status_code_is_200&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;1 ms&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;@pytest.mark.integration(method=&amp;quot;GET&amp;quot;, endpoint=&amp;quot;/users&amp;quot;)\n    def test_hello_status_code_is_200():\n    \n&amp;gt;       response = requests.get(url=f&amp;quot;{BASE_URL}/users&amp;quot;)\n\nfunctions/hello/integration.py:9: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n../../../.pyenv/versions/3.9.7/lib/python3.9/site-packages/requests/api.py:73: in get\n    return request(&amp;quot;get&amp;quot;, url, params=params, **kwargs)\n../../../.pyenv/versions/3.9.7/lib/python3.9/site-packages/requests/api.py:59: in request\n    return session.request(method=method, url=url, **kwargs)\n../../../.pyenv/versions/3.9.7/lib/python3.9/site-packages/requests/sessions.py:573: in request\n    prep = self.prepare_request(req)\n../../../.pyenv/versions/3.9.7/lib/python3.9/site-packages/requests/sessions.py:484: in prepare_request\n    p.prepare(\n../../../.pyenv/versions/3.9.7/lib/python3.9/site-packages/requests/models.py:368: in prepare\n    self.prepare_url(url, params)\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n\nself = &amp;lt;PreparedRequest [GET]&amp;gt;, url = &amp;#x27;/users&amp;#x27;, params = OrderedDict()\n\n    def prepare_url(self, url, params):\n        &amp;quot;&amp;quot;&amp;quot;Prepares the given HTTP URL.&amp;quot;&amp;quot;&amp;quot;\n        #: Accept objects that have string representations.\n        #: We&amp;#x27;re unable to blindly call unicode/str functions\n        #: as this will include the bytestring indicator (b&amp;#x27;&amp;#x27;)\n        #: on python 3.x.\n        #: https://github.com/psf/requests/pull/2238\n        if isinstance(url, bytes):\n            url = url.decode(&amp;quot;utf8&amp;quot;)\n        else:\n            url = str(url)\n    \n        # Remove leading whitespaces from url\n        url = url.lstrip()\n    \n        # Don&amp;#x27;t do any URL preparation for non-HTTP schemes like `mailto`,\n        # `data` etc to work around exceptions from `url_parse`, which\n        # handles RFC 3986 only.\n        if &amp;quot;:&amp;quot; in url and not url.lower().startswith(&amp;quot;http&amp;quot;):\n            self.url = url\n            return\n    \n        # Support for unicode domain names and paths.\n        try:\n            scheme, auth, host, port, path, query, fragment = parse_url(url)\n        except LocationParseError as e:\n            raise InvalidURL(*e.args)\n    \n        if not scheme:\n&amp;gt;           raise MissingSchema(\n                f&amp;quot;Invalid URL {url!r}: No scheme supplied. &amp;quot;\n                f&amp;quot;Perhaps you meant http://{url}?&amp;quot;\n            )\nE           requests.exceptions.MissingSchema: Invalid URL &amp;#x27;/users&amp;#x27;: No scheme supplied. Perhaps you meant http:///users?\n\n../../../.pyenv/versions/3.9.7/lib/python3.9/site-packages/requests/models.py:439: MissingSchema\n&#34;}], &#34;functions/hello/unit.py::test_lambda_handler&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;functions/hello/unit.py::test_lambda_handler&#34;, &#34;duration&#34;: &#34;0 ms&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;functions/hello/unit.py::test_lambda_handler&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;0 ms&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;def test_lambda_handler():\n    \n&amp;gt;       response = lambda_handler(None, None)\n\nfunctions/hello/unit.py:8: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n\nevent = None, context = None\n\n    def lambda_handler(event, context):\n    \n&amp;gt;       email = event[&amp;quot;requestContext&amp;quot;][&amp;quot;authorizer&amp;quot;][&amp;quot;email&amp;quot;]\nE       TypeError: &amp;#x27;NoneType&amp;#x27; object is not subscriptable\n\nfunctions/hello/main.py:17: TypeError\n&#34;}]}, &#34;renderCollapsed&#34;: [&#34;all&#34;], &#34;initialSort&#34;: &#34;result&#34;, &#34;title&#34;: &#34;report.html&#34;}"></div>
     <script>
       (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 const { getCollapsedCategory, setCollapsedIds } = require('./storage.js')
