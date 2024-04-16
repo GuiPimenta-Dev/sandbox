@@ -23,7 +23,6 @@ class DevStack(cdk.Stack):
                 install_commands=[
                     "pip install lambda-forge --extra-index-url https://pypi.org/simple --extra-index-url https://test.pypi.org/simple/",
                     "pip install aws-cdk-lib",
-                    "pip install b_aws_websocket_api==2.0.0",
                     "npm install -g aws-cdk",
                 ],
                 commands=[
