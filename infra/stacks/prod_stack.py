@@ -18,8 +18,6 @@ class ProdStack(cdk.Stack):
 
         source = CodePipelineSource.git_hub(f"{context.repo['owner']}/{context.repo['name']}", "main")
 
-        #
-
         pipeline = pipelines.CodePipeline(
             self,
             "Pipeline",
@@ -62,3 +60,4 @@ class ProdStack(cdk.Stack):
             DeployStage(self, context),
             post=[generate_docs],
         )
+#
