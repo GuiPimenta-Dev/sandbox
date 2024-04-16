@@ -20,7 +20,6 @@ class Websockets:
             route_selection_expression="$request.body.action",
         )
 
-        #
         self.stage = WsStage(
             scope=self.scope,
             id=f"{self.context.stage}-{self.name}-WSS-Stage",
@@ -38,7 +37,7 @@ class Websockets:
         self.deployment.node.add_dependency(self.stage)
 
     def create_route(self, route_key, function):
-        route_name = route_key.replace("$", "").replace("/", "")
+        route_name = route_key.replace("$", "")
 
         CfnPermission(
             scope=self.scope,
