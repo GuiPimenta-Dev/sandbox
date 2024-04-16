@@ -12,8 +12,11 @@ class DeployStage(cdk.Stage):
 
         lambda_stack.services.api_gateway.create_docs(authorizer=None)
 
-        lambda_stack.services.api_gateway.create_docs(authorizer=None, endpoint="/wiki", artifact="Wiki")
+        lambda_stack.services.api_gateway.create_docs(authorizer=None, endpoint="/wiki", artifact="wiki")
 
         lambda_stack.services.api_gateway.create_docs(authorizer=None, endpoint="/diagram", artifact="diagram")
 
-        lambda_stack.services.api_gateway.create_docs(authorizer=None, endpoint="/todo", artifact="todo")
+        lambda_stack.services.api_gateway.create_docs(authorizer=None, endpoint="/tests", artifact="tests")
+        
+        lambda_stack.services.api_gateway.create_docs(authorizer=None, endpoint="/coverage", artifact="coverage")
+

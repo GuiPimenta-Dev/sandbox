@@ -60,4 +60,3 @@ class ProdStack(cdk.Stack):
             DeployStage(self, context),
             post=[generate_docs],
         )
-#
