@@ -106,7 +106,7 @@ class APIGateway(IAPIGateway):
             raise Exception(f"Authorizer {authorizer} not found")
 
         authorizer = self.authorizers[authorizer] if authorizer else None
-
+#
         docs_resource.add_method(
             "GET",
             apigateway.AwsIntegration(
