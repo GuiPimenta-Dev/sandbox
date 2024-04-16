@@ -2,10 +2,11 @@ import json
 import os
 import boto3
 
+
 def lambda_handler(event, context):
     # Retrieve the URL for posting messages to connected clients from the environment variables
     POST_TO_CONNECTION_URL = os.environ.get("POST_TO_CONNECTION_URL")
-    
+
     # Create a client for the API Gateway Management API, specifying the endpoint URL
     # This client is used to post messages to the connections maintained by API Gateway
     apigtw_management = boto3.client(
@@ -13,11 +14,13 @@ def lambda_handler(event, context):
         endpoint_url=POST_TO_CONNECTION_URL,
     )
 
+    # Retrieve the connection ID of the sender from the Lambda event
+    sender_id = event["requestContext"]["connectionId"]
+
     # Parse the incoming message and the recipient ID from the Lambda event body
     message = json.loads(event["body"])["message"]
-    sender_id = event["requestContext"]["connectionId"] 
     recipient_id = json.loads(event["body"])["recipient_id"]
-    
+
     # Iterate over both the sender and recipient connection IDs
     for connection_id in [sender_id, recipient_id]:
         # For each connection ID, post the message along with the sender and recipient IDs
@@ -26,6 +29,6 @@ def lambda_handler(event, context):
             ConnectionId=connection_id,
             Data=json.dumps({"message": message, "sender_id": sender_id, "recipient_id": recipient_id}),
         )
-    
+
     # After successfully posting the message to both connections, return a 200 status code
     return {"statusCode": 200}

@@ -4,9 +4,15 @@ import os
 import boto3
 
 
-def invoke_second_lambda(connection_id):
+def lambda_handler(event, context):
+
+    # Retrieve the connection ID from the request context
+    connection_id = event["requestContext"]["connectionId"]
+
+    # Create a client for the AWS Lambda service
     lambda_client = boto3.client("lambda")
 
+    # Retrieve the ARN of the second Lambda function from the environment variables
     TARGET_FUNCTION_ARN = os.environ.get("TARGET_FUNCTION_ARN")
 
     # Define the payload to pass to the second Lambda function
@@ -14,18 +20,5 @@ def invoke_second_lambda(connection_id):
 
     # Invoke the second Lambda function asynchronously
     lambda_client.invoke(FunctionName=TARGET_FUNCTION_ARN, InvocationType="Event", Payload=json.dumps(payload))
-
-
-def lambda_handler(event, context):
-
-    dynamodb = boto3.resource("dynamodb")
-
-    CONNECTIONS_TABLE_NAME = os.environ.get("CONNECTIONS_TABLE_NAME")
-    connections_table = dynamodb.Table(CONNECTIONS_TABLE_NAME)
-
-    connection_id = event["requestContext"]["connectionId"]
-    connections_table.put_item(Item={"PK": connection_id})
-
-    invoke_second_lambda(connection_id)
 
     return {"statusCode": 200}

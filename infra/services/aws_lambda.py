@@ -3,13 +3,12 @@ from aws_cdk.aws_lambda import Code, Function, Runtime
 from lambda_forge import Path, track
 from lambda_forge.interfaces import IAWSLambda
 
-# from b_aws_websocket_api.ws_function import WsFunction as Function
-
 
 class AWSLambda(IAWSLambda):
     def __init__(self, scope, context) -> None:
         self.scope = scope
         self.context = context
+        self.functions = {}
 
     @track
     def create_function(
@@ -36,4 +35,5 @@ class AWSLambda(IAWSLambda):
             timeout=Duration.minutes(timeout),
         )
 
+        self.functions[name] = function
         return function
