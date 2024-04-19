@@ -101,11 +101,6 @@
                 "name": "SendMessage",
                 "path": "./functions/chat/send_message",
                 "description": "real time chat"
-            },
-            {
-                "name": "Disconnect",
-                "path": "./functions/chat/disconnect",
-                "description": "real time chat"
             }
         ]
     }
