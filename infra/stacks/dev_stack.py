@@ -31,16 +31,8 @@ class DevStack(cdk.Stack):
             ),
             pipeline_name=f"{context.stage}-{context.name}-Pipeline",
         )
-#
         steps = Steps(self, context, source)
         
-        wikis = [
-            {
-                "title": "Wiki",
-                "file_path": "wiki.md",
-                "favicon": "https://docs.lambda-forge.com/images/favicon.png",
-            }
-        ]
-        run_unit_Tests_code_build = steps.run_unit_tests_code_build()
+        run_unit_tests_code_build = steps.run_unit_tests_code_build()
 
-        pipeline.add_stage(DeployStage(self, context), pre=[run_unit_Tests_code_build])
+        pipeline.add_stage(DeployStage(self, context), pre=[run_unit_tests_code_build])
