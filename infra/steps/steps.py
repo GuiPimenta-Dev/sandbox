@@ -30,6 +30,7 @@ class Steps:
             files="coverage.xml",
             base_directory=".",
             file_format="COBERTURAXML",
+            coverage=True,
         )
 
         commands = [
@@ -49,7 +50,7 @@ class Steps:
 
         return self.codebuild.create_step(
             name="ValidateDocs",
-            commands=["ls -la"],
+            commands=["cdk synth", "python validate_docs.py"],
         )
 
     def validate_integration_tests(self):

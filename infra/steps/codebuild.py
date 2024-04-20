@@ -43,8 +43,9 @@ class CodeBuild:
             role_policy_statements=[*self.get_role_policy_statements(permissions)],
         )
 
-    def create_report_group(self, name, files, base_directory, file_format):
-        report_group = codebuild.ReportGroup(self.scope, f"{self.context.stage}-{self.context.name}-{name}")
+    def create_report_group(self, name, files, base_directory, file_format, coverage=False):
+        report_type = codebuild.ReportType.COVERAGE if coverage else codebuild.ReportType.TEST
+        report_group = codebuild.ReportGroup(self.scope, f"{self.context.stage}-{self.context.name}-{name}", type=report_type)
 
         report_group_build_spec = {
             "reports": {
