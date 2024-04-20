@@ -42,7 +42,7 @@ class DevStack(cdk.Stack):
         swagger = steps.swagger()
         redoc = steps.redoc()
         run_integration_tests = steps.run_integration_tests()
-
+        
         pipeline.add_stage(
             DeployStage(self, context),
             pre=[run_unit_tests, run_coverage, validate_docs, validate_integration_tests, swagger, redoc],
