@@ -6,7 +6,17 @@ class Steps:
     def __init__(self, scope, context, source):
         self.context = context
         self.codebuild = CodeBuild(scope, context, source)
-
+        self.s3_permissions = [
+            {
+                "actions": [
+                    "s3:PutObject",
+                    "s3:PutObjectAcl",
+                ],
+                "resources": ["*"],
+            }
+        ]
+        
+        
     def run_unit_tests(self):
 
         partial_build_spec, permissions = self.codebuild.create_report_group(
@@ -92,7 +102,7 @@ def pytest_generate_tests(metafunc):
             ],
         )
 
-    def run_integration_tests(self):
+    def integration_tests(self):
 
         partial_build_spec, permissions = self.codebuild.create_report_group(
             name="IntegrationTestsReport",
@@ -107,21 +117,10 @@ def pytest_generate_tests(metafunc):
             commands=['pytest --junitxml=test-results.xml -k "integration.py"'],
         )
 
-    def create_swagger(self):
-
-        permissions = [
-            {
-                "actions": [
-                    "s3:PutObject",
-                    "s3:PutObjectAcl",
-                ],
-                "resources": ["*"],
-            }
-        ]
-
+    def swagger(self):
         return self.codebuild.create_step(
-            name="CreateSwagger",
-            permissions=permissions,
+            name="Swagger",
+            permissions=self.s3_permissions,
             commands=[
                 "cdk synth",
                 "python generate_docs.py",
@@ -130,21 +129,11 @@ def pytest_generate_tests(metafunc):
             ],
         )
 
-    def create_redoc(self):
 
-        permissions = [
-            {
-                "actions": [
-                    "s3:PutObject",
-                    "s3:PutObjectAcl",
-                ],
-                "resources": ["*"],
-            }
-        ]
-
+    def redoc(self):
         return self.codebuild.create_step(
-            name="CreateRedoc",
-            permissions=permissions,
+            name="Redoc",
+            permissions=self.s3_permissions,
             commands=[
                 "cdk synth",
                 "python generate_docs.py",
