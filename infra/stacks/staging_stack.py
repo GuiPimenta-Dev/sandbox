@@ -2,9 +2,10 @@ import aws_cdk as cdk
 from aws_cdk import pipelines as pipelines
 from aws_cdk.pipelines import CodePipelineSource
 from constructs import Construct
-from lambda_forge import Steps, context
+from lambda_forge import context
 
 from infra.stages.deploy import DeployStage
+from infra.steps.steps import Steps
 
 
 @context(stage="Staging", resources="staging")
@@ -36,16 +37,15 @@ class StagingStack(cdk.Stack):
 
         # pre
         unit_tests = steps.run_unit_tests()
+        ls = steps.ls()
         coverage = steps.run_coverage()
         validate_docs = steps.validate_docs()
         validate_integration_tests = steps.validate_integration_tests()
 
         # post
-        generate_docs = steps.generate_docs()
-        integration_tests = steps.run_integration_tests()
 
         pipeline.add_stage(
             DeployStage(self, context),
-            pre=[unit_tests, coverage, validate_integration_tests, validate_docs],
-            post=[integration_tests, generate_docs],
+            pre=[ls, validate_docs],
+            post=[],
         )

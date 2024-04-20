@@ -46,5 +46,5 @@ class DevStack(cdk.Stack):
 
         pipeline.add_stage(
             DeployStage(self, context),
-            pre=[run_unit_tests, run_coverage, ls, run_integration_tests, create_swagger, create_redoc],
+            pre=[run_unit_tests, run_coverage, ls, run_integration_tests],
         )
