@@ -72,35 +72,6 @@
                 "description": "protected function",
                 "method": "GET",
                 "endpoint": "/users"
-            },
-            {
-                "name": "Signin",
-                "path": "./functions/auth/signin",
-                "description": "Signin function",
-                "method": "POST",
-                "endpoint": "/signin"
-            },
-            {
-                "name": "CreateUser",
-                "path": "./functions/auth/signup",
-                "description": "Create a user with name and age on Dynamo DB",
-                "method": "POST",
-                "endpoint": "/signup"
-            },
-            {
-                "name": "SendConnectionId",
-                "path": "./functions/chat/send_connection_id",
-                "description": "Return the connection id on connect"
-            },
-            {
-                "name": "Connect",
-                "path": "./functions/chat/connect",
-                "description": "real time chat"
-            },
-            {
-                "name": "SendMessage",
-                "path": "./functions/chat/send_message",
-                "description": "real time chat"
             }
         ]
     }

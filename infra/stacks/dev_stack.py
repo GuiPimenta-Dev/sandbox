@@ -2,7 +2,8 @@ import aws_cdk as cdk
 from aws_cdk import pipelines as pipelines
 from aws_cdk.pipelines import CodePipelineSource
 from constructs import Construct
-from lambda_forge import Steps, context
+from lambda_forge import context
+from infra.steps.steps import Steps
 
 from infra.stages.deploy import DeployStage
 
@@ -32,8 +33,10 @@ class DevStack(cdk.Stack):
             pipeline_name=f"{context.stage}-{context.name}-Pipeline",
         )
         steps = Steps(self, context, source)
-        
-        run_unit_tests_code_build = steps.run_unit_tests_code_build()
 
-        pipeline.add_stage(DeployStage(self, context), pre=[run_unit_tests_code_build])
+        unit_tests = steps.run_unit_tests()
+
+        pipeline.add_stage(DeployStage(self, context), pre=[unit_tests])
+
+
 #

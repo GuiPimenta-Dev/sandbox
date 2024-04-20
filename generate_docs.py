@@ -18,7 +18,10 @@ def get_paths(endpoints):
             "operationId": repo_name,
         }
     return paths
+
+
 #
+
 
 def normalize_file_path(file_path):
     """

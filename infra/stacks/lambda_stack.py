@@ -25,10 +25,10 @@ class LambdaStack(Stack):
 
         # Users
         HelloConfig(self.services)
-        SigninConfig(self.services)
-        SignUpConfig(self.services)
+        # SigninConfig(self.services)
+        # SignUpConfig(self.services)
 
-        # Chat
-        SendConnectionIdConfig(self.services, context)
-        ConnectConfig(self.services)
-        SendMessageConfig(self.services, context)
+        # # Chat
+        # SendConnectionIdConfig(self.services, context)
+        # ConnectConfig(self.services)
+        # SendMessageConfig(self.services, context)
