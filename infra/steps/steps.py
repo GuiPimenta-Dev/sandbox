@@ -11,38 +11,17 @@ class Steps:
 
     def run_unit_tests(self):
 
-        report_group = codebuild.ReportGroup(
-            self.scope,
-            f"{self.context.stage}-{self.context.name}-UnitReportGroup",
-        )
-
-        partial_build_spec = {
-            "reports": {
-                report_group.report_group_arn: {
-                    "files": "test-results.xml",
-                    "base-directory": "pytest-report",
-                    "file-format": "JUNITXML",
-                }
-            },
+        report_group = {
+            "scope": self.scope,
+            "name": f"{self.context.stage}-{self.context.name}-UnitTestsReport",
+            "files": "test-results.xml",
+            "base-directory": "pytest-report",
+            "file-format": "JUNITXML",
         }
-
-        permissions = [
-            {
-                "actions": [
-                    "codebuild:CreateReportGroup",
-                    "codebuild:CreateReport",
-                    "codebuild:UpdateReport",
-                    "codebuild:BatchPutTestCases",
-                    "codebuild:BatchPutCodeCoverages",
-                ],
-                "resources": [report_group.report_group_arn],
-            }
-        ]
 
         return create_step(
             source=self.source,
             name=f"{self.context.stage}-{self.context.name}-UnitTests",
             commands=['pytest --junitxml=pytest-report/test-results.xml -k "unit.py"'],
-            permissions=permissions,
-            partial_build_spec=partial_build_spec,
+            report_group=report_group,
         )

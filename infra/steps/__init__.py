@@ -11,6 +11,7 @@ def create_step(
     env={},
     partial_build_spec={},
     permissions=[],
+    report_group=None,
     requirements="requirements.txt",
 ):
 
@@ -18,11 +19,14 @@ def create_step(
 
     ECR_PERMISSIONS = iam.PolicyStatement(
         effect=iam.Effect.ALLOW,
-        actions=[
-            "ecr:*",
-        ],
+        actions=["ecr:*"],
         resources=["*"],
     )
+
+    if report_group:
+        report_group_build_spec, report_group_permissions = get_report_group(report_group)
+        partial_build_spec.update(report_group_build_spec)
+        permissions += report_group_permissions
 
     return pipelines.CodeBuildStep(
         name,
@@ -58,3 +62,32 @@ def get_role_policy_statements(permissions):
         )
 
     return role_policy_statements
+
+
+def get_report_group(report):
+    report_group = codebuild.ReportGroup(report["scope"], report["name"])
+
+    report_group_build_spec = {
+        "reports": {
+            report_group.report_group_arn: {
+                "files": report["files"],
+                "base-directory": report["base-directory"],
+                "file-format": report["file-format"],
+            }
+        },
+    }
+
+    report_group_permissions = [
+        {
+            "actions": [
+                "codebuild:CreateReportGroup",
+                "codebuild:CreateReport",
+                "codebuild:UpdateReport",
+                "codebuild:BatchPutTestCases",
+                "codebuild:BatchPutCodeCoverages",
+            ],
+            "resources": [report_group.report_group_arn],
+        }
+    ]
+
+    return report_group_build_spec, report_group_permissions
