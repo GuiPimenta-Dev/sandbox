@@ -43,7 +43,7 @@
     "name": "Lambda-Forge-Sandbox",
     "repo": {
       "owner": "GuiPimenta-Dev",
-      "name": "lambda-forge-sandbox"
+      "name": "sandbox"
     },
     "bucket": "gui-docs",
     "coverage": 0,
