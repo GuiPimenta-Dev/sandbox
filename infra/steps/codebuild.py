@@ -39,7 +39,7 @@ class CodeBuild:
                 environment_variables=env,
             ),
             partial_build_spec=codebuild.BuildSpec.from_object(partial_build_spec),
-            cache=codebuild.Cache.local(codebuild.LocalCacheMode.DOCKER_LAYER, codebuild.LocalCacheMode.CUSTOM),
+            # cache=codebuild.Cache.local(codebuild.LocalCacheMode.DOCKER_LAYER, codebuild.LocalCacheMode.CUSTOM),
             role_policy_statements=[*self.get_role_policy_statements(permissions)],
         )
 
