@@ -105,7 +105,7 @@ def pytest_generate_tests(metafunc):
 
         return self.codebuild.create_step(
             name="IntegrationTests",
-            commands=['pytest --junitxml=pytest-report/test-results.xml -k "integration.py"'],
+            commands=['pytest --junitxml=test-results.xml -k "integration.py"'],
             partial_build_spec=partial_build_spec,
             permissions=permissions,
         )
