@@ -101,7 +101,7 @@ def pytest_generate_tests(metafunc):
             ],
         )
 
-    def integration_tests(self):
+    def run_integration_tests(self):
 
         partial_build_spec, permissions = self.codebuild.create_report_group(
             name="IntegrationTestsReport",
