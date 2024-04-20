@@ -1,8 +1,6 @@
 
 [run]
 branch = True
-include =
-    functions/**/main.py
-    functions/**/utils.py
+include = functions/**/main.py
 
 omit=
