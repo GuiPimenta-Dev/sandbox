@@ -44,8 +44,10 @@ class CodeBuild:
         )
 
     def create_report_group(self, name, files, base_directory, file_format, coverage=False):
-        report_type = codebuild.ReportType.COVERAGE if coverage else codebuild.ReportType.TEST
-        report_group = codebuild.ReportGroup(self.scope, f"{self.context.stage}-{self.context.name}-{name}", type=report_type)
+        report_type = codebuild.ReportGroupType.CODE_COVERAGE if coverage else codebuild.ReportGroupType.TEST
+        report_group = codebuild.ReportGroup(
+            self.scope, f"{self.context.stage}-{self.context.name}-{name}", type=report_type
+        )
 
         report_group_build_spec = {
             "reports": {
