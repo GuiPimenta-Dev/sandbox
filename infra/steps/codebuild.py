@@ -20,7 +20,7 @@ class CodeBuild:
         requirements="requirements.txt",
     ):
 
-        PUBLIC_ECR = "public.ecr.aws/x8r4y7j7/lambda-forge-generate-docs"
+        PUBLIC_ECR = "public.ecr.aws/x8r4y7j7/lambda-forge-generate-docs:latest"
 
         return pipelines.CodeBuildStep(
             name,
