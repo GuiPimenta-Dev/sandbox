@@ -31,12 +31,12 @@ class Steps:
             base_directory=".",
             file_format="COBERTURAXML",
         )
-        
-        commands=[
-                'coverage run -m pytest -k "unit.py"',
-                f"coverage xml --fail-under={self.context.coverage}",
-                "touch coverage.xml",
-            ]
+
+        commands = [
+            'coverage run -m pytest -k "unit.py"',
+            f"coverage xml --fail-under={self.context.coverage}",
+            "touch coverage.xml",
+        ]
 
         return self.codebuild.create_step(
             name="Coverage",
@@ -44,13 +44,28 @@ class Steps:
             partial_build_spec=partial_build_spec,
             permissions=permissions,
         )
-        
+
     def validate_docs(self):
 
         return self.codebuild.create_step(
             name="ValidateDocs",
-            commands=[
-                "cdk synth",
-                "python validate_docs.py",
-            ],
+            commands=["ls -la"],
         )
+
+    def validate_integration_tests(self):
+        conftest = """import json 
+def pytest_generate_tests(metafunc):
+    for mark in metafunc.definition.iter_markers(name="integration"):
+        with open("tested_endpoints.txt", "a") as f:
+            f.write(f"{json.dumps(mark.kwargs)}|")"""
+
+        commands = [
+            "cdk synth",
+            "rm -rf cdk.out",
+            f"echo '{conftest}' > conftest.py",
+            "pytest -m integration --collect-only . -q",
+            "python validate_integration_tests.py",
+        ]
+
+        return self.codebuild.create_step(name="Validate Docs", commands=commands)
+
