@@ -40,13 +40,13 @@
     "@aws-cdk/customresources:installLatestAwsSdkDefault": false,
     "region": "us-east-2",
     "account": "",
-    "name": "Explore",
+    "name": "Lambda-Forge-Sandbox",
     "repo": {
-      "owner": "Git",
-      "name": "jhony"
+      "owner": "GuiPimenta-Dev",
+      "name": "lambda-forge-sandbox"
     },
     "bucket": "gui-docs",
-    "coverage": 80,
+    "coverage": 0,
     "base_url": "",
     "dev": {
       "arns": {}
