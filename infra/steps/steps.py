@@ -88,7 +88,7 @@ def pytest_generate_tests(metafunc):
             commands=[
                 "cdk synth",
                 "rm -rf cdk.out",
-                f"echo '{conftest}' > conftest.py",
+                f"echo \"{conftest}\" > conftest.py",
                 "pytest -m integration --collect-only . -q",
                 "python validate_integration_tests.py",
             ],
