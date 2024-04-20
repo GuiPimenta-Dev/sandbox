@@ -59,13 +59,6 @@ class Steps:
             commands=["cdk synth", "python validate_docs.py"],
         )
 
-    def ls(self):
-
-        return self.codebuild.create_step(
-            name="LS",
-            commands=["cdk synth", "ls -la"],
-        )
-
     def validate_integration_tests(self):
         conftest = """import json 
 def pytest_generate_tests(metafunc):
