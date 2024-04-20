@@ -44,3 +44,13 @@ class Steps:
             partial_build_spec=partial_build_spec,
             permissions=permissions,
         )
+        
+    def validate_docs(self):
+
+        return self.codebuild.create_step(
+            name="ValidateDocs",
+            commands=[
+                "cdk synth",
+                "python validate_docs.py",
+            ],
+        )

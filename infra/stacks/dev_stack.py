@@ -37,8 +37,8 @@ class DevStack(cdk.Stack):
 
         run_unit_tests = steps.run_unit_tests()
         run_coverage = steps.run_coverage()
+        validate_docs = steps.validate_docs()
 
-        pipeline.add_stage(DeployStage(self, context), pre=[run_unit_tests, run_coverage])
+        pipeline.add_stage(DeployStage(self, context), pre=[run_unit_tests, run_coverage, validate_docs])
 
 
-#
