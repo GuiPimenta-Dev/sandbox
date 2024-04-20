@@ -32,9 +32,9 @@ class DevStack(cdk.Stack):
                 ],
             ),
             pipeline_name=f"{context.stage}-{context.name}-Pipeline",
-            code_build_defaults=pipelines.CodeBuildOptions(
-                cache=codebuild.Cache.local(codebuild.LocalCacheMode.DOCKER_LAYER, codebuild.LocalCacheMode.CUSTOM),
-            ),
+            # code_build_defaults=pipelines.CodeBuildOptions(
+            #     cache=codebuild.Cache.local(codebuild.LocalCacheMode.DOCKER_LAYER, codebuild.LocalCacheMode.CUSTOM),
+            # ),
         )
 
         steps = Steps(self, context, source)
@@ -45,5 +45,10 @@ class DevStack(cdk.Stack):
         validate_integration_tests = steps.validate_integration_tests()
         ls = steps.ls()
         run_integration_tests = steps.run_integration_tests()
+        create_swagger = steps.create_swagger()
+        create_redoc = steps.create_redoc()
 
-        pipeline.add_stage(DeployStage(self, context), pre=[run_unit_tests, run_coverage, ls, run_integration_tests])
+        pipeline.add_stage(
+            DeployStage(self, context),
+            pre=[run_unit_tests, run_coverage, ls, run_integration_tests, create_swagger, create_redoc],
+        )

@@ -12,7 +12,6 @@ class Steps:
         partial_build_spec, permissions = self.codebuild.create_report_group(
             name="UnitTestsReport",
             files="test-results.xml",
-            base_directory=".",
             file_format="JUNITXML",
         )
 
@@ -33,17 +32,15 @@ class Steps:
             coverage=True,
         )
 
-        commands = [
-            'coverage run -m pytest -k "unit.py"',
-            f"coverage xml --fail-under={self.context.coverage}",
-            "touch coverage.xml",
-        ]
-
         return self.codebuild.create_step(
             name="Coverage",
-            commands=commands,
             partial_build_spec=partial_build_spec,
             permissions=permissions,
+            commands=[
+                'coverage run -m pytest -k "unit.py"',
+                f"coverage xml --fail-under={self.context.coverage}",
+                "touch coverage.xml",
+            ],
         )
 
     def validate_docs(self):
@@ -56,7 +53,7 @@ class Steps:
     def ls(self):
 
         return self.codebuild.create_step(
-            name="ValidateDocs",
+            name="LS",
             commands=["cdk synth", "ls -la"],
         )
 
@@ -84,28 +81,74 @@ def pytest_generate_tests(metafunc):
             with open("tested_endpoints.txt", "a") as f:
                 f.write(f"{json.dumps(mark.kwargs)}|")"""
 
-        commands = [
-            "cdk synth",
-            "rm -rf cdk.out",
-            f"echo '{conftest}' > conftest.py",
-            "pytest -m integration --collect-only . -q",
-            "python validate_integration_tests.py",
-        ]
-
-        return self.codebuild.create_step(name="ValidateIntegrationTests", commands=commands)
+        return self.codebuild.create_step(
+            name="ValidateIntegrationTests",
+            commands=[
+                "cdk synth",
+                "rm -rf cdk.out",
+                f"echo '{conftest}' > conftest.py",
+                "pytest -m integration --collect-only . -q",
+                "python validate_integration_tests.py",
+            ],
+        )
 
     def run_integration_tests(self):
 
         partial_build_spec, permissions = self.codebuild.create_report_group(
             name="IntegrationTestsReport",
             files="test-results.xml",
-            base_directory=".",
             file_format="JUNITXML",
         )
 
         return self.codebuild.create_step(
             name="IntegrationTests",
-            commands=['pytest --junitxml=test-results.xml -k "integration.py"'],
             partial_build_spec=partial_build_spec,
             permissions=permissions,
+            commands=['pytest --junitxml=test-results.xml -k "integration.py"'],
+        )
+
+    def create_swagger(self):
+
+        permissions = [
+            {
+                "actions": [
+                    "s3:PutObject",
+                    "s3:PutObjectAcl",
+                ],
+                "resources": ["*"],
+            }
+        ]
+
+        return self.codebuild.create_step(
+            name="CreateSwagger",
+            permissions=permissions,
+            commands=[
+                "cdk synth",
+                "python generate_docs.py",
+                "python swagger_yml_to_ui.py < docs.yaml > swagger.html",
+                f"aws s3 cp swagger.html s3://{self.context.bucket}/{self.context.name}/{self.context.stage.lower()}/swagger.html",
+            ],
+        )
+
+    def create_redoc(self):
+
+        permissions = [
+            {
+                "actions": [
+                    "s3:PutObject",
+                    "s3:PutObjectAcl",
+                ],
+                "resources": ["*"],
+            }
+        ]
+
+        return self.codebuild.create_step(
+            name="CreateRedoc",
+            permissions=permissions,
+            commands=[
+                "cdk synth",
+                "python generate_docs.py",
+                "redoc-cli bundle -o redoc.html docs.yaml",
+                f"aws s3 cp redoc.html s3://{self.context.bucket}/{self.context.name}/{self.context.stage.lower()}/redoc.html",
+            ],
         )
