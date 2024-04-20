@@ -15,8 +15,7 @@ class Steps:
                 "resources": ["*"],
             }
         ]
-        
-        
+
     def run_unit_tests(self):
 
         partial_build_spec, permissions = self.codebuild.create_report_group(
@@ -128,7 +127,6 @@ def pytest_generate_tests(metafunc):
                 f"aws s3 cp swagger.html s3://{self.context.bucket}/{self.context.name}/{self.context.stage.lower()}/swagger.html",
             ],
         )
-
 
     def redoc(self):
         return self.codebuild.create_step(
