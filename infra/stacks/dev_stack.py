@@ -35,9 +35,10 @@ class DevStack(cdk.Stack):
 
         steps = Steps(self, context, source)
 
-        unit_tests = steps.run_unit_tests()
+        run_unit_tests = steps.run_unit_tests()
+        run_coverage = steps.run_coverage()
 
-        pipeline.add_stage(DeployStage(self, context), pre=[unit_tests])
+        pipeline.add_stage(DeployStage(self, context), pre=[run_unit_tests, run_coverage])
 
 
 #
