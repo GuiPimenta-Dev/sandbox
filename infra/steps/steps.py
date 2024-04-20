@@ -53,6 +53,13 @@ class Steps:
             commands=["cdk synth", "python validate_docs.py"],
         )
 
+    def ls(self):
+
+        return self.codebuild.create_step(
+            name="ValidateDocs",
+            commands=["cdk synth", "ls -la"],
+        )
+
     def validate_integration_tests(self):
         conftest = """import json 
 def pytest_generate_tests(metafunc):
@@ -70,12 +77,12 @@ def pytest_generate_tests(metafunc):
 
         return self.codebuild.create_step(name="ValidateIntegrationTests", commands=commands)
 
-def validate_integration_tests(self):
+    def validate_integration_tests(self):
         conftest = """import json 
-def pytest_generate_tests(metafunc):
-    for mark in metafunc.definition.iter_markers(name="integration"):
-        with open("tested_endpoints.txt", "a") as f:
-            f.write(f"{json.dumps(mark.kwargs)}|")"""
+    def pytest_generate_tests(metafunc):
+        for mark in metafunc.definition.iter_markers(name="integration"):
+            with open("tested_endpoints.txt", "a") as f:
+                f.write(f"{json.dumps(mark.kwargs)}|")"""
 
         commands = [
             "cdk synth",
@@ -86,3 +93,19 @@ def pytest_generate_tests(metafunc):
         ]
 
         return self.codebuild.create_step(name="ValidateIntegrationTests", commands=commands)
+
+    def run_integration_tests(self):
+
+        partial_build_spec, permissions = self.codebuild.create_report_group(
+            name="IntegrationTestsReport",
+            files="test-results.xml",
+            base_directory=".",
+            file_format="JUNITXML",
+        )
+
+        return self.codebuild.create_step(
+            name="IntegrationTests",
+            commands=['pytest --junitxml=pytest-report/test-results.xml -k "integration.py"'],
+            partial_build_spec=partial_build_spec,
+            permissions=permissions,
+        )

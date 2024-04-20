@@ -4,6 +4,7 @@ from aws_cdk.pipelines import CodePipelineSource
 from constructs import Construct
 from lambda_forge import context
 from infra.steps.steps import Steps
+from aws_cdk import aws_codebuild as codebuild
 
 from infra.stages.deploy import DeployStage
 
@@ -31,6 +32,9 @@ class DevStack(cdk.Stack):
                 ],
             ),
             pipeline_name=f"{context.stage}-{context.name}-Pipeline",
+            code_build_defaults=pipelines.CodeBuildOptions(
+                cache=codebuild.Cache.local(codebuild.LocalCacheMode.DOCKER_LAYER, codebuild.LocalCacheMode.CUSTOM),
+            ),
         )
 
         steps = Steps(self, context, source)
@@ -38,5 +42,8 @@ class DevStack(cdk.Stack):
         run_unit_tests = steps.run_unit_tests()
         run_coverage = steps.run_coverage()
         validate_docs = steps.validate_docs()
+        validate_integration_tests = steps.validate_integration_tests()
+        ls = steps.ls()
+        run_integration_tests = steps.run_integration_tests()
 
-        pipeline.add_stage(DeployStage(self, context), pre=[run_unit_tests, run_coverage, validate_docs])
+        pipeline.add_stage(DeployStage(self, context), pre=[run_unit_tests, run_coverage, ls, run_integration_tests])
