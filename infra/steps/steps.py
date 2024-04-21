@@ -69,7 +69,7 @@ def pytest_generate_tests(metafunc):
         commands = [
             "cdk synth",
             "rm -rf cdk.out",
-            f"echo '{conftest}' > conftest.py",
+            f"echo '{conftest}' >> conftest.py",
             "pytest -m integration --collect-only . -q",
             "python validate_integration_tests.py",
         ]
@@ -77,23 +77,22 @@ def pytest_generate_tests(metafunc):
         return self.codebuild.create_step(name="ValidateIntegrationTests", commands=commands)
 
     def validate_integration_tests(self):
-        conftest = """import json 
-def pytest_generate_tests(metafunc):
-    for mark in metafunc.definition.iter_markers(name="integration"):
-        with open("tested_endpoints.txt", "a") as f:
-            f.write(f"{json.dumps(mark.kwargs)}|")"""
 
         return self.codebuild.create_step(
-            name="ValidateIntegrationTests",
-            commands=[
-                "cdk synth",
-                "rm -rf cdk.out",
-                f'echo "{conftest}" > conftest.py',
-                "cat conftest.py",
-                "pytest -m integration --collect-only . -q",
-                "python validate_integration_tests.py",
-            ],
-        )
+    name="ValidateIntegrationTests",
+    commands=[
+        "cat <<'EOF' > conftest.py",
+        "import json",
+        "def pytest_generate_tests(metafunc):",
+        "    for mark in metafunc.definition.iter_markers(name='integration'):",
+        "        with open('tested_endpoints.txt', 'a') as f:",
+        "            f.write(f'{json.dumps(mark.kwargs)}|')",
+        "EOF",
+        "cat conftest.py",
+        "pytest -m integration --collect-only . -q",
+        "python validate_integration_tests.py",
+    ],
+)
 
     def run_integration_tests(self):
 
