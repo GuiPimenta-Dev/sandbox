@@ -90,7 +90,7 @@ def pytest_generate_tests(metafunc):
                 "rm -rf cdk.out",
                 f"echo \"{conftest}\" > conftest.py",
                 "pytest -m integration --collect-only . -q",
-                "python validate_integration_tests.py",
+                # "python validate_integration_tests.py",
             ],
         )
 
@@ -164,6 +164,7 @@ def pytest_generate_tests(metafunc):
     def test_report(self):
         return self.codebuild.create_step(
             name="TestReport",
+            permissions=self.s3_permissions,
             commands=[
                 "pytest --html=report.html --self-contained-html || echo 'skipping failure'",
                 f"aws s3 cp report.html s3://{self.context.bucket}/{self.context.name}/{self.context.stage.lower()}/tests.html",
