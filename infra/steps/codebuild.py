@@ -21,7 +21,7 @@ class CodeBuild:
     ):
 
         PUBLIC_ECR = "public.ecr.aws/x8r4y7j7/lambda-forge:latest"
-#
+        #
         return pipelines.CodeBuildStep(
             name,
             input=self.source,

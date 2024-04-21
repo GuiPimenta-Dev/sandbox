@@ -79,20 +79,19 @@ def pytest_generate_tests(metafunc):
     def validate_integration_tests(self):
 
         return self.codebuild.create_step(
-    name="ValidateIntegrationTests",
-    commands=[
-        "cat <<'EOF' > conftest.py",
-        "import json",
-        "def pytest_generate_tests(metafunc):",
-        "    for mark in metafunc.definition.iter_markers(name='integration'):",
-        "        with open('tested_endpoints.txt', 'a') as f:",
-        "            f.write(f'{json.dumps(mark.kwargs)}|')",
-        "EOF",
-        "cat conftest.py",
-        "pytest -m integration --collect-only . -q",
-        "python validate_integration_tests.py",
-    ],
-)
+            name="ValidateIntegrationTests",
+            commands=[
+                "cat <<'EOF' > conftest.py",
+                "import json",
+                "def pytest_generate_tests(metafunc):",
+                "    for mark in metafunc.definition.iter_markers(name='integration'):",
+                "        with open('tested_endpoints.txt', 'a') as f:",
+                "            f.write(f'{json.dumps(mark.kwargs)}|')",
+                "EOF",
+                "pytest -m integration --collect-only . -q",
+                "python validate_integration_tests.py",
+            ],
+        )
 
     def run_integration_tests(self):
 
@@ -143,7 +142,7 @@ def pytest_generate_tests(metafunc):
                 f"aws s3 cp diagram.html s3://{self.context.bucket}/{self.context.name}/{self.context.stage.lower()}/diagram.html",
             ],
         )
-    
+
     def wikis(self, wikis=[]):
         commands = []
         for wiki in wikis:
@@ -154,13 +153,13 @@ def pytest_generate_tests(metafunc):
             commands.append(
                 f"aws s3 cp {title}.html s3://{self.context.bucket}/{self.context.name}/{self.context.stage.lower()}/{title.lower()}.html"
             )
-            
+
         return self.codebuild.create_step(
             name="Wikis",
             permissions=self.s3_permissions,
             commands=commands,
         )
-    
+
     def test_report(self):
         return self.codebuild.create_step(
             name="TestReport",
@@ -170,7 +169,7 @@ def pytest_generate_tests(metafunc):
                 f"aws s3 cp report.html s3://{self.context.bucket}/{self.context.name}/{self.context.stage.lower()}/tests.html",
             ],
         )
-    
+
     def coverage_report(self):
         return self.codebuild.create_step(
             name="CoverageReport",
