@@ -82,7 +82,7 @@ def pytest_generate_tests(metafunc):
     for mark in metafunc.definition.iter_markers(name="integration"):
         with open("tested_endpoints.txt", "a") as f:
             f.write(f"{json.dumps(mark.kwargs)}|")"""
-#
+
         return self.codebuild.create_step(
             name="ValidateIntegrationTests",
             commands=[
@@ -130,5 +130,53 @@ def pytest_generate_tests(metafunc):
                 "python generate_docs.py",
                 "redoc-cli bundle -o redoc.html docs.yaml",
                 f"aws s3 cp redoc.html s3://{self.context.bucket}/{self.context.name}/{self.context.stage.lower()}/redoc.html",
+            ],
+        )
+
+    def diagram(self):
+        return self.codebuild.create_step(
+            name="Diagram",
+            permissions=self.s3_permissions,
+            commands=[
+                f"python generate_diagram.py {self.context.stage}",
+                "python embed_image_in_html.py diagram.png diagram.html",
+                f"aws s3 cp diagram.html s3://{self.context.bucket}/{self.context.name}/{self.context.stage.lower()}/diagram.html",
+            ],
+        )
+    
+    def wikis(self, wikis=[]):
+        commands = []
+        for wiki in wikis:
+            file_path = wiki.get("file_path", "")
+            title = wiki.get("title", "Wiki").title()
+            favicon = wiki.get("favicon", "favicon.png")
+            commands.append(f"python generate_wiki.py '{file_path}' '{title}' '{favicon}'")
+            commands.append(
+                f"aws s3 cp {title}.html s3://{self.context.bucket}/{self.context.name}/{self.context.stage.lower()}/{title.lower()}.html"
+            )
+            
+        return self.codebuild.create_step(
+            name="Wikis",
+            permissions=self.s3_permissions,
+            commands=commands,
+        )
+    
+    def test_report(self):
+        return self.codebuild.create_step(
+            name="TestReport",
+            commands=[
+                "pytest --html=report.html --self-contained-html || echo 'skipping failure'",
+                f"aws s3 cp report.html s3://{self.context.bucket}/{self.context.name}/{self.context.stage.lower()}/tests.html",
+            ],
+        )
+    
+    def coverage_report(self):
+        return self.codebuild.create_step(
+            name="CoverageReport",
+            permissions=self.s3_permissions,
+            commands=[
+                "coverage run -m pytest --html=report.html --self-contained-html || echo 'skipping failure'",
+                "coverage html",
+                f"aws s3 cp htmlcov/index.html s3://{self.context.bucket}/{self.context.name}/{self.context.stage.lower()}/coverage.html",
             ],
         )
