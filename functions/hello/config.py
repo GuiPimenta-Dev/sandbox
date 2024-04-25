@@ -10,4 +10,4 @@ class HelloConfig:
             description="protected function",
         )
 
-        services.api_gateway.create_endpoint("GET", "/users", function)
+        services.api_gateway.create_endpoint("GET", "/users", function, public=True)

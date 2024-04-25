@@ -5,7 +5,6 @@ from constructs import Construct
 from infra.stages.deploy import DeployStage
 from lambda_forge import context
 
-from infra.steps.steps import Steps
 
 
 @context(stage="Dev", resources="dev")
@@ -33,30 +32,6 @@ class DevStack(cdk.Stack):
             pipeline_name=f"{context.stage}-{context.name}-Pipeline",
         )
 
-        steps = Steps(self, context, source)
-
-        run_unit_tests = steps.run_unit_tests()
-        run_coverage = steps.run_coverage()
-        validate_integration_tests = steps.validate_integration_tests()
-        validate_docs = steps.validate_docs()
-        swagger = steps.swagger()
-        redoc = steps.redoc()
-        diagram = steps.diagram()
-        run_integration_tests = steps.run_integration_tests()
-        test_report = steps.test_report()
-        coverage_report = steps.coverage_report()
-
         pipeline.add_stage(
             DeployStage(self, context),
-            pre=[
-                run_unit_tests,
-                run_coverage,
-                validate_docs,
-                swagger,
-                redoc,
-                diagram,
-                test_report,
-                coverage_report,
-            ],
-            post=[run_integration_tests],
         )

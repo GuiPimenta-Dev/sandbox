@@ -1,6 +1,9 @@
+from functions.guess_the_number.make_guess.config import MakeGuessConfig
+from functions.guess_the_number.create_game.config import CreateGameConfig
 from docs.config import DocsConfig
 from aws_cdk import Stack
 from constructs import Construct
+from functions.hello.config import HelloConfig
 from infra.services import Services
 from lambda_forge import release
 
@@ -15,3 +18,8 @@ class LambdaStack(Stack):
 
         # Docs
         DocsConfig(self.services)
+
+        HelloConfig(self.services)
+        # GuessTheNumber
+        MakeGuessConfig(self.services)
+        CreateGameConfig(self.services)

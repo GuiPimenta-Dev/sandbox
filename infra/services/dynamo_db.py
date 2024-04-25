@@ -5,6 +5,12 @@ from aws_cdk import aws_iam as iam
 class DynamoDB:
     def __init__(self, scope, context) -> None:
 
+        self.guess_the_number_table = dynamo_db.Table.from_table_arn(
+            scope,
+            "GuessTheNumberTable",
+            "arn:aws:dynamodb:us-east-2:211125768252:table/Dev-Guess-The-Number",
+        )
+
         self.users_table = dynamo_db.Table.from_table_arn(
             scope,
             "UsersTable",
