@@ -1,5 +1,5 @@
-from lambda_forge.apis import APIGateway
-from lambda_forge import Lambda
+from lambda_forge.services import APIGateway, Lambda
+
 
 class Services:
     def __init__(self, scope, context) -> None:
