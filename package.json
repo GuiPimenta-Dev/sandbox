@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "aws-cdk": "^2.136.1",
-    "cdk-dia": "^0.11.0"
-  }
-}

@@ -39,45 +39,25 @@
         "@aws-cdk/aws-route53-patters:useCertificate": true,
         "@aws-cdk/customresources:installLatestAwsSdkDefault": false,
         "region": "us-east-2",
-        "account": "",
+        "account": "123123123123",
         "name": "Lambda-Forge-Sandbox",
         "repo": {
             "owner": "GuiPimenta-Dev",
-            "name": "sandbox"
+            "name": "Lambda-Forge-Sandbox"
         },
-        "bucket": "gui-docs",
-        "coverage": 0,
+        "bucket": "",
+        "coverage": 80,
         "base_url": "",
-        "dev": {
-            "arns": {}
-        },
-        "staging": {
-            "arns": {}
-        },
         "prod": {
             "arns": {}
         },
         "functions": [
             {
-                "name": "Hello",
-                "path": "./functions/hello",
-                "description": "protected function",
+                "name": "HelloWorld",
+                "path": "./functions/hello_world",
+                "description": "A simple hello word",
                 "method": "GET",
-                "endpoint": "/users"
-            },
-            {
-                "name": "MakeGuess",
-                "path": "./functions/guess_the_number/make_guess",
-                "description": "Verify if the number is correct, lower or higher",
-                "method": "GET",
-                "endpoint": "/game/{game_id}"
-            },
-            {
-                "name": "CreateGame",
-                "path": "./functions/guess_the_number/create_game",
-                "description": "Creates a new guess the number game",
-                "method": "POST",
-                "endpoint": "/game"
+                "endpoint": "/hello_world"
             }
         ]
     }
