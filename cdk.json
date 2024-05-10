@@ -39,8 +39,8 @@
     "@aws-cdk/aws-route53-patters:useCertificate": true,
     "@aws-cdk/customresources:installLatestAwsSdkDefault": false,
     "region": "us-east-2",
-    "account": "123123123123",
-    "name": "Lambda-Forge-Sandbox",
+    "account": "211125768252",
+    "name": "Sandbox",
     "repo": {
       "owner": "GuiPimenta-Dev",
       "name": "sandbox"
@@ -50,15 +50,6 @@
     "base_url": "",
     "prod": {
       "arns": {}
-    },
-    "functions": [
-      {
-        "name": "HelloWorld",
-        "path": "./functions/hello_world",
-        "description": "A simple hello word",
-        "method": "GET",
-        "endpoint": "/hello_world"
-      }
-    ]
+    }
   }
 }
